@@ -1,0 +1,28 @@
+{
+  "snapshot": "a7742a18706bacab239f61ca8817a3120912f47709227f56117a3eda5d9a4e04",
+  "analysis": {
+    "criteria": [
+      {
+        "criterion_id": "accessibility",
+        "status": "missing",
+        "evidence_id": "acceptance-report",
+        "quote": "The accessibility assessment is outstanding. The issue register is empty because that assessment has not been performed, not because it passed.",
+        "reason": "The accessibility assessment is outstanding."
+      },
+      {
+        "criterion_id": "contact",
+        "status": "missing",
+        "evidence_id": "acceptance-report",
+        "quote": "The contact form looks correct, but no message has yet been submitted through it on the staging site. A successful local developer test does not establish a staging submission.",
+        "reason": "A successful local developer test does not establish a staging submission."
+      },
+      {
+        "criterion_id": "responsive",
+        "status": "evidence_found",
+        "evidence_id": "acceptance-report",
+        "quote": "The handset, slate and desktop layouts were exercised at viewport widths of 375, 768 and 1440 pixels respectively; no clipped content or sideways scrolling was observed in any of those three runs.",
+        "reason": "The handset, slate and desktop layouts were exercised at viewport widths of 375, 768 and 1440 pixels respectively; no clipped content or sideways scrolling was observed in any of those three runs."
+      }
+    ]
+  }
+}

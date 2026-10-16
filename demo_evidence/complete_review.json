@@ -1,0 +1,28 @@
+{
+  "snapshot": "651e59007e946ca6b45b6fc89efd5f8f2ccdcb9e246a0d41b9cf1faa19aa3fd9",
+  "analysis": {
+    "criteria": [
+      {
+        "criterion_id": "accessibility",
+        "status": "evidence_found",
+        "evidence_id": "acceptance-report",
+        "quote": "A completed accessibility assessment recorded zero findings rated critical. Two minor contrast observations remain, neither rated critical.",
+        "reason": "A completed accessibility assessment recorded zero findings rated critical."
+      },
+      {
+        "criterion_id": "contact",
+        "status": "evidence_found",
+        "evidence_id": "acceptance-report",
+        "quote": "On the staging site, the contact form accepted a submitted message and returned its success acknowledgement; the message arrived in the test inbox. This completes the staging check that was previously outstanding.",
+        "reason": "On the staging site, the contact form accepted a submitted message and returned its success acknowledgement; the message arrived in the test inbox."
+      },
+      {
+        "criterion_id": "responsive",
+        "status": "evidence_found",
+        "evidence_id": "acceptance-report",
+        "quote": "The handset, slate and desktop layouts were exercised at viewport widths of 375, 768 and 1440 pixels respectively; no clipped content or sideways scrolling was observed in any of those three runs.",
+        "reason": "The handset, slate and desktop layouts were exercised at viewport widths of 375, 768 and 1440 pixels respectively; no clipped content or sideways scrolling was observed in any of those three runs."
+      }
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "exported_at": "2026-10-16T10:45:11.311003+00:00",
+  "exported_via": "GET /api/review-prompt over actual loopback HTTP",
+  "snapshot": "a7742a18706bacab239f61ca8817a3120912f47709227f56117a3eda5d9a4e04",
+  "provider_called_by_app": false,
+  "prompt_sha256": "815abf4a75ae12648b3c527221a915a740a69c008290cda10a3d70a4af606e6c"
+}

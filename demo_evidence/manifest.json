@@ -1,0 +1,32 @@
+{
+  "provenance": "EXTERNAL_CHATGPT_AGENT_OUTPUTS_IMPORTED_THROUGH_APP_HTTP",
+  "generation_agent": "/root/fresh_ai_demo/blind_prompt_generation",
+  "generation_context": "Only the exported prompt was provided for each turn; the second turn retained prior prompt context.",
+  "model_identifier": "Not exposed; no model-version claim",
+  "external_model_invocations": 2,
+  "app_model_api_calls": 0,
+  "model_outputs_edited_by_harness": false,
+  "independent_audit": false,
+  "report_replay_result": {
+    "basename": "scopeproof_replay_0_3_3.json",
+    "sha256": "575cc95fa7b1d7a6e0980dae9b2924749fdd2b5716154e66e718244893dccf60",
+    "app_version": "0.3.3-edit-safety",
+    "completed_at": "2026-10-16T10:51:06.117242+00:00"
+  },
+  "files": {
+    "README.md": "c5f0a121ea5aab85d51d4e9386bcf9fb0231ec93f04772e5450a23efdffa464c",
+    "ScopeProof_fresh_AI_evidence.html": "d6e60527dbad8f48e70114d0ad0d4c835301bb929f656864e9c3bda0e4bc346a",
+    "build_report.py": "40299c574833aab7fe41e107ca20846de2196e055f9a96ec9167b32b627b5cde",
+    "complete_prompt.txt": "f3ca6130ebf5940e6c6a0dd95911f334ae4560e445baea1a0abec60743947960",
+    "complete_prompt_receipt.json": "569cbd8a7846ce10bc8f57e57939010f73272ea4589aaa687063be40909b7287",
+    "complete_review.json": "9bcacfa04d20382132b1a813e7f0893eead82cfae1e9cde05150c23ce25d24dc",
+    "fresh_run.json": "5e16b0ad5803395540ba5434efadb76dec1b813cdc4dec42aaca45b597af7105",
+    "incomplete_prompt.txt": "815abf4a75ae12648b3c527221a915a740a69c008290cda10a3d70a4af606e6c",
+    "incomplete_prompt_receipt.json": "34a8211b31c4138713c0557adbba2633522b5461c7131254ba1e002f24ffc106",
+    "incomplete_review.json": "3a645b5be280fa88804654fb3e7c27d3003d3a968fd012c205c8ddf27aa835a5",
+    "rebuild_report.py": "3ec40accb22ba9947b5b44ae622515edb9edb2adfe0f33b4152e7a7837e1bfa0",
+    "replay_run.json": "79666e3a48408cf7908f0463edd190fd76530004fe95156df82d6cb81667b402",
+    "run_demo.py": "edad03ce6e683e93e16d5f86eb9496c67d554013d981969f83f44ff2668d452b",
+    "test_output.py": "36431d2a72851947f385cc58d65f5be596fe66ded4d6153def4ad8931599caf0"
+  }
+}

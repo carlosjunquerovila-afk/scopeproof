@@ -1,0 +1,246 @@
+{
+  "started_at": "2026-10-16T10:46:36.638553+00:00",
+  "completed_at": "2026-10-16T10:46:36.680697+00:00",
+  "mode": "FROZEN_EXTERNAL_RESPONSE_REPLAY",
+  "app_version": "0.3.2-evidence-limits",
+  "transport": "ACTUAL_LOOPBACK_HTTP",
+  "external_model_execution": "None; saved response replay",
+  "app_model_api_calls": 0,
+  "real_paypal_calls": 0,
+  "real_payments": 0,
+  "customer_participants": 0,
+  "synthetic_evidence": true,
+  "independent_or_production_validation": false,
+  "model_import_provenance_in_app": "IMPORTED_REVIEW_UNVERIFIED_AUTHOR",
+  "prompt_sha256": {
+    "incomplete": "815abf4a75ae12648b3c527221a915a740a69c008290cda10a3d70a4af606e6c",
+    "complete": "f3ca6130ebf5940e6c6a0dd95911f334ae4560e445baea1a0abec60743947960"
+  },
+  "response_sha256": {
+    "incomplete": "3a645b5be280fa88804654fb3e7c27d3003d3a968fd012c205c8ddf27aa835a5",
+    "complete": "9bcacfa04d20382132b1a813e7f0893eead82cfae1e9cde05150c23ce25d24dc"
+  },
+  "checks": {
+    "incomplete_analysis": {
+      "accessibility": "missing",
+      "contact": "missing",
+      "responsive": "evidence_found"
+    },
+    "draft_before_explicit_review": "CURRENT_REVIEW_REQUIRED",
+    "complete_analysis": {
+      "accessibility": "evidence_found",
+      "contact": "evidence_found",
+      "responsive": "evidence_found"
+    },
+    "ai_import_does_not_approve": true,
+    "explicit_review_actor": "SIMULATED_LOCAL_OPERATOR_NOT_CUSTOMER_IDENTITY",
+    "draft_retry": {
+      "state": "VERIFIED_DRAFT",
+      "invoice_id": "INV2-MOCK-0001",
+      "invoice_count": 1,
+      "create_requests": 1,
+      "provider": "LOCAL_SIMULATOR_NOT_PAYPAL",
+      "readback_confirmed": true
+    },
+    "evidence_change_revokes_approval": true,
+    "stale_model_import": "AI_REVIEW_STALE",
+    "stale_reviewer_link": "REVIEW_LINK_STALE_REQUEST_NEW_LINK",
+    "changed_evidence_cannot_bill_without_new_review": "CURRENT_REVIEW_REQUIRED",
+    "ledger_event_chain_verified": true
+  },
+  "http_requests": [
+    {
+      "at": "2026-10-16T10:46:36.648427+00:00",
+      "method": "GET",
+      "path": "/api/state",
+      "http_status": 200,
+      "error": null,
+      "revision": 1,
+      "snapshot": "2d12f14e0b3ce7bcab652618aaedd83b3b17b789618a7ddfd48e826ef1147482",
+      "approved_current": false,
+      "outcome_status": null,
+      "simulator_invoice_count": 0
+    },
+    {
+      "at": "2026-10-16T10:46:36.650701+00:00",
+      "method": "POST",
+      "path": "/api/evidence",
+      "http_status": 200,
+      "error": null,
+      "revision": 2,
+      "snapshot": "a7742a18706bacab239f61ca8817a3120912f47709227f56117a3eda5d9a4e04",
+      "approved_current": false,
+      "outcome_status": null,
+      "simulator_invoice_count": 0
+    },
+    {
+      "at": "2026-10-16T10:46:36.651948+00:00",
+      "method": "GET",
+      "path": "/api/review-prompt",
+      "http_status": 200,
+      "error": null,
+      "revision": null,
+      "snapshot": "a7742a18706bacab239f61ca8817a3120912f47709227f56117a3eda5d9a4e04",
+      "approved_current": null,
+      "outcome_status": null,
+      "simulator_invoice_count": null
+    },
+    {
+      "at": "2026-10-16T10:46:36.655044+00:00",
+      "method": "POST",
+      "path": "/api/import-analysis",
+      "http_status": 200,
+      "error": null,
+      "revision": 2,
+      "snapshot": "a7742a18706bacab239f61ca8817a3120912f47709227f56117a3eda5d9a4e04",
+      "approved_current": false,
+      "outcome_status": null,
+      "simulator_invoice_count": 0
+    },
+    {
+      "at": "2026-10-16T10:46:36.656645+00:00",
+      "method": "POST",
+      "path": "/api/draft",
+      "http_status": 400,
+      "error": "CURRENT_REVIEW_REQUIRED",
+      "revision": null,
+      "snapshot": null,
+      "approved_current": null,
+      "outcome_status": null,
+      "simulator_invoice_count": null
+    },
+    {
+      "at": "2026-10-16T10:46:36.658638+00:00",
+      "method": "POST",
+      "path": "/api/evidence",
+      "http_status": 200,
+      "error": null,
+      "revision": 3,
+      "snapshot": "651e59007e946ca6b45b6fc89efd5f8f2ccdcb9e246a0d41b9cf1faa19aa3fd9",
+      "approved_current": false,
+      "outcome_status": null,
+      "simulator_invoice_count": 0
+    },
+    {
+      "at": "2026-10-16T10:46:36.659951+00:00",
+      "method": "GET",
+      "path": "/api/review-prompt",
+      "http_status": 200,
+      "error": null,
+      "revision": null,
+      "snapshot": "651e59007e946ca6b45b6fc89efd5f8f2ccdcb9e246a0d41b9cf1faa19aa3fd9",
+      "approved_current": null,
+      "outcome_status": null,
+      "simulator_invoice_count": null
+    },
+    {
+      "at": "2026-10-16T10:46:36.662530+00:00",
+      "method": "POST",
+      "path": "/api/import-analysis",
+      "http_status": 200,
+      "error": null,
+      "revision": 3,
+      "snapshot": "651e59007e946ca6b45b6fc89efd5f8f2ccdcb9e246a0d41b9cf1faa19aa3fd9",
+      "approved_current": false,
+      "outcome_status": null,
+      "simulator_invoice_count": 0
+    },
+    {
+      "at": "2026-10-16T10:46:36.663985+00:00",
+      "method": "POST",
+      "path": "/api/invite",
+      "http_status": 200,
+      "error": null,
+      "revision": null,
+      "snapshot": "651e59007e946ca6b45b6fc89efd5f8f2ccdcb9e246a0d41b9cf1faa19aa3fd9",
+      "approved_current": null,
+      "outcome_status": null,
+      "simulator_invoice_count": null
+    },
+    {
+      "at": "2026-10-16T10:46:36.666773+00:00",
+      "method": "POST",
+      "path": "/api/approve",
+      "http_status": 200,
+      "error": null,
+      "revision": 3,
+      "snapshot": "651e59007e946ca6b45b6fc89efd5f8f2ccdcb9e246a0d41b9cf1faa19aa3fd9",
+      "approved_current": true,
+      "outcome_status": null,
+      "simulator_invoice_count": 0
+    },
+    {
+      "at": "2026-10-16T10:46:36.671358+00:00",
+      "method": "POST",
+      "path": "/api/draft",
+      "http_status": 200,
+      "error": null,
+      "revision": 3,
+      "snapshot": "651e59007e946ca6b45b6fc89efd5f8f2ccdcb9e246a0d41b9cf1faa19aa3fd9",
+      "approved_current": true,
+      "outcome_status": "VERIFIED_DRAFT",
+      "simulator_invoice_count": 1
+    },
+    {
+      "at": "2026-10-16T10:46:36.673935+00:00",
+      "method": "POST",
+      "path": "/api/draft",
+      "http_status": 200,
+      "error": null,
+      "revision": 3,
+      "snapshot": "651e59007e946ca6b45b6fc89efd5f8f2ccdcb9e246a0d41b9cf1faa19aa3fd9",
+      "approved_current": true,
+      "outcome_status": "VERIFIED_DRAFT",
+      "simulator_invoice_count": 1
+    },
+    {
+      "at": "2026-10-16T10:46:36.676446+00:00",
+      "method": "POST",
+      "path": "/api/evidence",
+      "http_status": 200,
+      "error": null,
+      "revision": 4,
+      "snapshot": "24bdb6443b23fa44367df8ed32e20b256f413c0c469a90bb3bbb76685976043c",
+      "approved_current": false,
+      "outcome_status": "VERIFIED_DRAFT",
+      "simulator_invoice_count": 1
+    },
+    {
+      "at": "2026-10-16T10:46:36.677762+00:00",
+      "method": "POST",
+      "path": "/api/import-analysis",
+      "http_status": 400,
+      "error": "AI_REVIEW_STALE",
+      "revision": null,
+      "snapshot": null,
+      "approved_current": null,
+      "outcome_status": null,
+      "simulator_invoice_count": null
+    },
+    {
+      "at": "2026-10-16T10:46:36.679227+00:00",
+      "method": "GET",
+      "path": "/api/state",
+      "http_status": 403,
+      "error": "REVIEW_LINK_STALE_REQUEST_NEW_LINK",
+      "revision": null,
+      "snapshot": null,
+      "approved_current": null,
+      "outcome_status": null,
+      "simulator_invoice_count": null
+    },
+    {
+      "at": "2026-10-16T10:46:36.680496+00:00",
+      "method": "POST",
+      "path": "/api/draft",
+      "http_status": 400,
+      "error": "CURRENT_REVIEW_REQUIRED",
+      "revision": null,
+      "snapshot": null,
+      "approved_current": null,
+      "outcome_status": null,
+      "simulator_invoice_count": null
+    }
+  ],
+  "all_passed": true
+}
