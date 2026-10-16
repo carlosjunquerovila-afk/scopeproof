@@ -1,0 +1,36 @@
+# Claim register — ScopeProof 0.3.4 candidate and retained baseline evidence
+
+Checked against the recovered source, release notes and internal evaluation files on 16 October 2026. This is a self-audit by a separate agent in the same system, not an external certification. New execution evidence is explicitly versioned below; baseline observations are not silently relabelled.
+
+| Proposed claim | Supporting evidence | Boundary / remaining proof |
+|---|---|---|
+| “Evidence before invoices.” | Implemented sequence in `workflow.py` and actual interface in `static/index.html`; milestone, evidence, review and draft stages. | Positioning, not a claim of universal prevention of billing disputes. |
+| “A price comes from agreed scope, never from the model.” | `scopeproof_guard.py`; integer-cent checks; `test_integer_cents_only`, `test_ai_price_field_rejected`, `test_ai_approval_field_rejected`. | An authorized local operator can edit the scope before billing; the model has no authority to do so. |
+| “Changing evidence invalidates acceptance.” | `Workspace.update_evidence`, `EVIDENCE_UPDATED_APPROVAL_REVOKED`; snapshot and stale-review tests. | Applies to evidence persisted through this application, not an external file the app has not received. |
+| “Imported review quotes must appear in the supplied text.” | `validate_analysis`; invented quotation and criterion tests; `import_review` current-snapshot check. | A real substring may still be misleading, contradicted, fabricated by its source or embedded in a prompt injection. This is not semantic truth verification. |
+| “The model assists review; a person accepts.” | Separate `invite`/`approve` actions, criterion decisions, acknowledgement and snapshot checks. | The local operator can hold both capabilities. No independently authenticated customer or separation-of-duties claim. |
+| “An uncertain create outcome blocks blind retries.” | Durable ledger, `test_timeout_after_create_never_repeats`, `test_timeout_before_create_stays_unknown`, interruption/recovery tests. | Local policy exercised with simulator; not a provider-wide exactly-once guarantee. An unresolved result may require manual investigation indefinitely. |
+| “Read-back validates expected invoice fields.” | `test_external_total_mismatch_quarantined`, sender/recipient/currency/item/quantity tests and reconciliation checks. | Checks implemented with simulated responses. Actual PayPal round-trip still needs a redacted receipt. |
+| “192 internal Python tests passed for 0.3.3.” | `VERIFICATION_0_3_3.txt` and retained release notes; five inherited HTTP fault scenarios reported separately. | Historical result for the recorded version, not a final 0.3.4 result. Does not measure intelligence, customer demand or win probability. |
+| “0.3.4 passes its local integrated verification.” | `VERIFICATION_0_3_4.txt`: 202 Python tests, five HTTP fault scenarios, 21 JavaScript-controller checks and 16 replay requests pass; verified runtime file hashes included. | Controlled provider responses and DOM/HTTP adapters do not establish real PayPal behavior, browser rendering or customer usefulness. |
+| “0.3.4 presents evidence and human decisions together.” | `static/app.js`, `static/index.html`, and 21 passing JavaScript-controller checks. | DOM/HTTP adapters test the actual controller, including no automatic acceptance; they do not establish browser rendering or customer usability. |
+| “Different new workspaces use different persisted draft identities.” | `workflow.py`, CLI workspace identity handling and new regression tests. | Existing workspaces keep their earlier identity; this is local identity management, not global identity verification. |
+| “Explicit provider rejections are distinct from uncertain outcomes.” | `scopeproof_bridge.py`, `CREATE_REJECTED`, controlled HTTP rejection tests and UI checks. | No real provider request in these tests. Operations remain blocked for review; raw error payloads are not shown. |
+| “A stable PayPal request identifier is sent.” | `PayPal-Request-Id` derived from the persisted draft payload in the adapter. | Does not prove provider-side idempotency or exactly-once behavior. The application does not automatically retry the creation POST. |
+| “Fresh external AI analysis was imported through the real app HTTP server.” | `demo_evidence/fresh_run.json`: two new external ChatGPT responses, 16 real loopback HTTP requests, runtime 0.3.2; versioned saved-output replay passes on 0.3.3. | App model API calls: zero. PayPal calls: zero. Synthetic evidence, simulated local review actor, no customers. Replaying saved responses is not another inference. |
+| “The historical AI responses replay successfully on 0.3.4.” | `demo_evidence/replay_0_3_4.json`: 16 actual HTTP requests with the explicitly declared historical project fixture; original prompt and response hashes retained. | The legacy identity exists only in a temporary simulator workspace. No new inference or PayPal request. The saved responses do not match a normal newly created workspace. |
+| “0.3.3 preserves unsaved report and scope edits.” | `UX_AUDIT_20261016.md`, actual JavaScript, 19 passing controller checks; final Python suite 192 and five local HTTP scenarios pass. | DOM/HTTP adapters do not prove browser rendering or navigation-dialog behavior. It is not autosave; deliberate reload can discard edits. |
+| “Sandbox integration is complete.” | **No qualifying evidence in the frozen baseline.** | Require actual app OAuth, create, direct GET and matching fields. Browser login and simulated invoices are insufficient. Keep this claim blocked. |
+| “ScopeProof reduces handoff time.” | **Hypothesis; no measured customer evidence.** | Require real participant baseline, task time, correction time, failures and consented study record. |
+| “Two paid pilots prove initial willingness to pay.” | **Planned experiment; no purchases recorded.** | Actual payment and delivery evidence required. Do not replace paid with verbal interest or a test transaction. |
+| “The prototype is ready for production.” | **Not supported.** | Customer identity, deployment, operational security, privacy/data-retention procedures and production billing remain separate work. |
+
+## Approved concise pitch
+
+“ScopeProof helps web studios connect agreed scope, delivery evidence, explicit version-specific review and an invoice draft. AI highlights criterion-level passages; a person decides whether to accept. Durable local intent and read-only reconciliation make uncertain draft creation visible. Fresh external AI analysis has been imported through real local HTTP; the provider remains a clearly labelled simulator. Actual PayPal Sandbox execution remains a final-entry gate.”
+
+Once a real Sandbox round-trip is recorded, replace only the final sentence with the exact result supported by the new evidence.
+
+## Phrases to remove from submission copy
+
+“AI verifies delivery”; “guarantees approval”; “unforgeable proof”; “verified client signature”; “zero hallucinations”; “exactly-once PayPal invoices”; “production-ready”; “100% accurate”; “no competitor”; “guaranteed winner”; “automatically collects payment”; “revenue generated” when only a simulator or Sandbox draft exists.

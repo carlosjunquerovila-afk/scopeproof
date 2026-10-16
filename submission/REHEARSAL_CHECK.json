@@ -1,0 +1,19 @@
+{
+  "method": "in-process rehearsal of documented instructions; not browser or external provider execution",
+  "initial_review_statuses": [
+    "unclear",
+    "missing",
+    "missing"
+  ],
+  "complete_review_statuses": [
+    "evidence_found",
+    "evidence_found",
+    "evidence_found"
+  ],
+  "first_status": "UNKNOWN",
+  "second_status": "UNKNOWN",
+  "reconciled_status": "VERIFIED_DRAFT",
+  "simulated_invoice_count": 1,
+  "provider_provenance": "LOCAL_SIMULATOR_NOT_PAYPAL",
+  "fresh_model_calls": 0
+}

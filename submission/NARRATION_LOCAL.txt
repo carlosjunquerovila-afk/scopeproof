@@ -1,0 +1,38 @@
+SCOPEPROOF — PROPOSED NARRATION, NOT A RECORDING
+
+Production status: this is a script for the 0.3.4 candidate. It does not establish that footage, fresh model inference or a PayPal Sandbox transaction has occurred. The default narration below is for a clearly labelled local simulation with saved AI answers. Record actual application actions before presenting any statement as a demonstrated result. Do not read these production notes aloud.
+
+Replay constraint: archived answers bind to a historical project identity. A normal new 0.3.4 workspace uses a different identity, so obtain and save matching answers from its actual exported prompts before filming the default narration. Describe an answer generated during filming with replacement A instead. The automated legacy-fixture replay proves HTTP reproduction, not browser footage; do not change a response fingerprint to make it fit.
+
+DEFAULT LOCAL NARRATION
+
+A web studio has finished a one-hundred-and-twenty-five-euro website milestone. Before preparing the invoice, its reviewer needs to answer one question: does the delivery report support what was agreed?
+
+ScopeProof puts the agreed criteria, supporting text and explicit acceptance in one workflow. This example uses synthetic delivery evidence and a local provider simulator.
+
+The report describes working mobile, tablet and desktop layouts. But “the form looks correct” does not mean a message reached the staging inbox. And an empty accessibility issue list is not a completed assessment.
+
+Here is a saved external-AI review. Replaying it makes no new model call. Each finding now sits beside its criterion and quotation: one has supporting text, while two need evidence. This helps a person find what to inspect. It does not approve the work.
+
+After saving a corrected report, I import the matching saved analysis. The reviewer inspects each criterion and the actual deliverable, then explicitly accepts this version. This local review session does not verify a customer's identity.
+
+The merchant separately confirms the draft. ScopeProof reads the simulated record back and compares it with the agreed scope. The amount remains one hundred and twenty-five euros. Nothing has been sent or paid.
+
+Now the report changes. The previous acceptance no longer applies; a fresh review is needed before this version can proceed.
+
+The purpose is a clearer handoff: the agreement, reviewed evidence and draft refer to the same version. Real PayPal Sandbox execution and testing usefulness with studios remain the next validation steps.
+
+CONDITIONAL REPLACEMENTS — USE ONLY AFTER CAPTURING THE NAMED EXECUTION
+
+A. Fresh external-tool AI review, replacing the saved-review paragraph:
+“I export this version's review prompt to [actual AI tool]. This newly generated answer finds support for the layout, but distinguishes an untested form and an outstanding assessment. I import it into ScopeProof, which checks its version and exact quotations. Each finding sits beside the criterion a person must review.”
+
+B. Fresh inference initiated by the application, only if implemented and actually recorded:
+“I run a fresh review using [actual provider and model]. The model finds support for the layout, but distinguishes an untested form and an outstanding assessment. ScopeProof checks the response's references and version. Each finding sits beside the criterion a person must review.”
+
+C. Real Sandbox create and direct read-back, replacing the simulated-draft paragraph:
+“This run uses PayPal Sandbox test accounts. The merchant separately confirms one invoice draft. ScopeProof creates it, then reads the record directly from PayPal. The returned draft matches the agreed amount, currency, sender, recipient and milestone. It remains a draft: no invoice was sent and no payment was taken.”
+
+If C is used, replace the opening environment line with “This example uses synthetic delivery evidence and PayPal Sandbox test accounts.” Replace the closing pending-Sandbox sentence only with the exact verified outcome. A real Sandbox run requires fresh AI output for its connected snapshot; the saved simulator responses are not interchangeable.
+
+Use at most one AI replacement, and identify saved replays, cuts and elapsed waits accurately. The final video must stay below three minutes. Keep detailed development test counts and simulator fault recovery in the README or an optional supplementary clip.
