@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "checks": [
+    "unsaved_edits_visible_and_stale_actions_disabled",
+    "direct_stale_analysis_cannot_bypass_guard",
+    "unsaved_review_does_not_open_empty_window",
+    "navigation_warns_about_unsaved_report",
+    "saving_keeps_text_and_enables_current_version_actions",
+    "explicit_discard_restores_last_saved_report",
+    "sample_loading_requires_save_before_review",
+    "failed_save_preserves_unsaved_text",
+    "late_analysis_response_does_not_erase_new_edits",
+    "late_save_response_keeps_more_recent_edits",
+    "reverting_to_old_text_during_save_is_preserved_as_new_unsaved_edit",
+    "editors_locked_until_initial_state_has_loaded",
+    "pending_v1_request_cannot_overlap_and_roll_back_v2_save",
+    "unsaved_name_amount_and_currency_block_stale_review_and_draft_until_explicit_discard",
+    "criterion_edits_are_saved_explicitly_before_review",
+    "both_editors_can_be_saved_sequentially_without_losing_the_other",
+    "late_scope_save_preserves_newer_amount_edit",
+    "late_refresh_preserves_name_currency_and_criterion_edits",
+    "failed_scope_save_retains_edits_and_releases_busy_lock"
+  ],
+  "check_count": 19,
+  "transport": "DOM/HTTP adapters; actual app.js; initial state from actual Python Workspace",
+  "browser_rendering_tested": false,
+  "external_calls": 0
+}

@@ -1,0 +1,301 @@
+ScopeProof 0.3.4 local integrated verification
+RESULT: PASS | Python tests: 202 | Local HTTP fault scenarios: 5 | JavaScript controller checks: 21 | Historical replay HTTP requests: 16
+All provider responses simulated; no new model inference, PayPal API call, payment or customer trial.
+
+{
+  "started_at_utc": "2026-10-16T15:37:36.928010+00:00",
+  "finished_at_utc": "2026-10-16T15:37:53.176861+00:00",
+  "all_passed": true,
+  "runtime_version": "0.3.4-sandbox-identity",
+  "real_paypal_calls": 0,
+  "external_model_inferences": 0,
+  "new_payments": 0,
+  "customer_participants": 0,
+  "test_transports": "Local loopback HTTP and injected mocks; JavaScript DOM/HTTP adapters",
+  "historical_evidence_files_unchanged": true,
+  "historical_files_checked": 15,
+  "replay_fixture": "Legacy demo-web-project in temporary simulator only; preserved original snapshot checks and response bytes. Not a new inference.",
+  "commands": [
+    {
+      "command": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python run_tests.py",
+      "exit_code": 0
+    },
+    {
+      "command": "node test_ui_unsaved.js",
+      "exit_code": 0
+    },
+    {
+      "command": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python demo_evidence/run_demo.py --app . --replay --output demo_evidence/replay_0_3_4.json",
+      "exit_code": 0
+    }
+  ],
+  "sha256_of_verified_runtime_files": {
+    "workflow.py": "6cac96a996d99f9491c5aaeb3f5264820bfaeab7078622c5c1ec82d575cf7508",
+    "scopeproof_bridge.py": "2ad1f7097d6e2e988045dc918e88c790cf20ea8d62418fa32aa4d469c9303bd9",
+    "scopeproof_guard.py": "a5654561c4370a79ea88eb383489b3717b45756f8ce41063365059bced36d128",
+    "run_scopeproof.py": "206fa32ffe7b39e1d2e8775032318dcdbe9ac76663734c3748f75ae763747f6d",
+    "app.py": "46236994e35f64d5b211d768628053bb66b0a20efac6a761e56c36f6753a131b",
+    "static/app.js": "bf4535176150b66ec0a61a4b3ad5227a4b6cdac9122d19df3aa68a7be81c515e",
+    "static/index.html": "d76e13e36cbe1c86759c40c4e1309d85c8d138d04092a43a3f7f2ab415483598",
+    "demo_evidence/run_demo.py": "a3bd249d52ad47ba8b2b2552324b0483e0d6fed6401d642006655b20acba9258"
+  }
+}
+
+$ /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python run_tests.py
+EXIT: 0
+STDOUT
+Original five HTTP fault scenarios: True
+
+STDERR
+test_amount_change_invalidates (test_scopeproof_guard.GuardTests.test_amount_change_invalidates) ... ok
+test_changed_artifact_refused (test_scopeproof_guard.GuardTests.test_changed_artifact_refused) ... ok
+test_concurrent_reservations_one_new (test_scopeproof_guard.GuardTests.test_concurrent_reservations_one_new) ... ok
+test_currency_change_invalidates (test_scopeproof_guard.GuardTests.test_currency_change_invalidates) ... ok
+test_duplicate_evidence_approval (test_scopeproof_guard.GuardTests.test_duplicate_evidence_approval) ... ok
+test_duplicate_local_reservation (test_scopeproof_guard.GuardTests.test_duplicate_local_reservation) ... ok
+test_duplicate_milestone_ids (test_scopeproof_guard.GuardTests.test_duplicate_milestone_ids) ... ok
+test_empty_artifact_refused (test_scopeproof_guard.GuardTests.test_empty_artifact_refused) ... ok
+test_fake_ai_instruction_has_no_authority (test_scopeproof_guard.GuardTests.test_fake_ai_instruction_has_no_authority) ... ok
+test_happy_path_payload_125_eur (test_scopeproof_guard.GuardTests.test_happy_path_payload_125_eur) ... ok
+test_header_injection_rejected (test_scopeproof_guard.GuardTests.test_header_injection_rejected) ... ok
+test_integer_cents_only (test_scopeproof_guard.GuardTests.test_integer_cents_only) ... ok
+test_live_environment_refused (test_scopeproof_guard.GuardTests.test_live_environment_refused) ... ok
+test_missing_acceptance (test_scopeproof_guard.GuardTests.test_missing_acceptance) ... ok
+test_missing_artifact_refused (test_scopeproof_guard.GuardTests.test_missing_artifact_refused) ... ok
+test_modified_payload_refused (test_scopeproof_guard.GuardTests.test_modified_payload_refused) ... ok
+test_no_network_calls (test_scopeproof_guard.GuardTests.test_no_network_calls) ... ok
+test_not_marked_as_paid (test_scopeproof_guard.GuardTests.test_not_marked_as_paid) ... ok
+test_plaintext_evidence_refused (test_scopeproof_guard.GuardTests.test_plaintext_evidence_refused) ... ok
+test_recipient_change_invalidates (test_scopeproof_guard.GuardTests.test_recipient_change_invalidates) ... ok
+test_reviewer_missing (test_scopeproof_guard.GuardTests.test_reviewer_missing) ... ok
+test_revised_amount_does_not_create_second_billing_event (test_scopeproof_guard.GuardTests.test_revised_amount_does_not_create_second_billing_event) ... ok
+test_revision_invalidates_acceptance (test_scopeproof_guard.GuardTests.test_revision_invalidates_acceptance) ... ok
+test_subcent_invalid_not_rounded (test_scopeproof_guard.GuardTests.test_subcent_invalid_not_rounded) ... ok
+test_surplus_evidence_approval (test_scopeproof_guard.GuardTests.test_surplus_evidence_approval) ... ok
+test_truthy_acceptance_string_refused (test_scopeproof_guard.GuardTests.test_truthy_acceptance_string_refused) ... ok
+test_unapproved_milestone_not_invoiceable (test_scopeproof_guard.GuardTests.test_unapproved_milestone_not_invoiceable) ... ok
+test_unsupported_currency (test_scopeproof_guard.GuardTests.test_unsupported_currency) ... ok
+test_usd_with_new_approval (test_scopeproof_guard.GuardTests.test_usd_with_new_approval) ... ok
+test_wrong_project_approval (test_scopeproof_guard.GuardTests.test_wrong_project_approval) ... ok
+test_ai_approval_field_rejected (test_scopeproof_bridge.AnalysisTests.test_ai_approval_field_rejected) ... ok
+test_ai_invented_criterion_rejected (test_scopeproof_bridge.AnalysisTests.test_ai_invented_criterion_rejected) ... ok
+test_ai_invented_evidence_rejected (test_scopeproof_bridge.AnalysisTests.test_ai_invented_evidence_rejected) ... ok
+test_ai_missing_can_abstain (test_scopeproof_bridge.AnalysisTests.test_ai_missing_can_abstain) ... ok
+test_ai_positive_without_evidence_rejected (test_scopeproof_bridge.AnalysisTests.test_ai_positive_without_evidence_rejected) ... ok
+test_ai_price_field_rejected (test_scopeproof_bridge.AnalysisTests.test_ai_price_field_rejected) ... ok
+test_ai_quote_not_in_input_rejected (test_scopeproof_bridge.AnalysisTests.test_ai_quote_not_in_input_rejected) ... ok
+test_duplicate_json_keys_rejected (test_scopeproof_bridge.AnalysisTests.test_duplicate_json_keys_rejected) ... ok
+test_incomplete_model_output_rejected (test_scopeproof_bridge.AnalysisTests.test_incomplete_model_output_rejected) ... ok
+test_injection_text_has_no_capability (test_scopeproof_bridge.AnalysisTests.test_injection_text_has_no_capability) ... ok
+test_model_call_requires_explicit_budget_gate (test_scopeproof_bridge.AnalysisTests.test_model_call_requires_explicit_budget_gate) ... ok
+test_model_call_requires_model (test_scopeproof_bridge.AnalysisTests.test_model_call_requires_model) ... ok
+test_model_refusal_rejected (test_scopeproof_bridge.AnalysisTests.test_model_refusal_rejected) ... ok
+test_nan_json_rejected (test_scopeproof_bridge.AnalysisTests.test_nan_json_rejected) ... ok
+test_oversized_response_rejected (test_scopeproof_bridge.AnalysisTests.test_oversized_response_rejected) ... ok
+test_real_text_reference_is_still_not_approval (test_scopeproof_bridge.AnalysisTests.test_real_text_reference_is_still_not_approval) ... ok
+test_response_adapter_uses_schema_no_tools_no_store (test_scopeproof_bridge.AnalysisTests.test_response_adapter_uses_schema_no_tools_no_store) ... ok
+test_scope_hash_changes_with_evidence (test_scopeproof_bridge.AnalysisTests.test_scope_hash_changes_with_evidence) ... ok
+test_ambiguous_http_outcomes_stay_unknown_and_never_retried (test_scopeproof_bridge.BridgeTests.test_ambiguous_http_outcomes_stay_unknown_and_never_retried) ... ok
+test_auth_error_does_not_reserve (test_scopeproof_bridge.BridgeTests.test_auth_error_does_not_reserve) ... ok
+test_boolean_expiry_is_invalid (test_scopeproof_bridge.BridgeTests.test_boolean_expiry_is_invalid) ... ok
+test_crash_after_reservation_is_not_retried (test_scopeproof_bridge.BridgeTests.test_crash_after_reservation_is_not_retried) ... ok
+test_created_id_survives_readback_timeout (test_scopeproof_bridge.BridgeTests.test_created_id_survives_readback_timeout) ... ok
+test_creation_self_link_accepted_without_following (test_scopeproof_bridge.BridgeTests.test_creation_self_link_accepted_without_following) ... ok
+test_definite_create_rejections_are_sanitized_and_never_retried (test_scopeproof_bridge.BridgeTests.test_definite_create_rejections_are_sanitized_and_never_retried) ... ok
+test_different_project_has_different_paypal_request_id (test_scopeproof_bridge.BridgeTests.test_different_project_has_different_paypal_request_id) ... ok
+test_duplicate_refresh_detects_provider_changes (test_scopeproof_bridge.BridgeTests.test_duplicate_refresh_detects_provider_changes) ... ok
+test_duplicate_refresh_timeout_not_fresh_success (test_scopeproof_bridge.BridgeTests.test_duplicate_refresh_timeout_not_fresh_success) ... ok
+test_event_chain_detects_edit (test_scopeproof_bridge.BridgeTests.test_event_chain_detects_edit) ... ok
+test_expired_approval (test_scopeproof_bridge.BridgeTests.test_expired_approval) ... ok
+test_external_currency_mismatch (test_scopeproof_bridge.BridgeTests.test_external_currency_mismatch) ... ok
+test_external_extra_item (test_scopeproof_bridge.BridgeTests.test_external_extra_item) ... ok
+test_external_missing_total (test_scopeproof_bridge.BridgeTests.test_external_missing_total) ... ok
+test_external_paid_is_not_claimed_our_success (test_scopeproof_bridge.BridgeTests.test_external_paid_is_not_claimed_our_success) ... ok
+test_external_quantity_change (test_scopeproof_bridge.BridgeTests.test_external_quantity_change) ... ok
+test_external_recipient_mismatch (test_scopeproof_bridge.BridgeTests.test_external_recipient_mismatch) ... ok
+test_external_sender_change (test_scopeproof_bridge.BridgeTests.test_external_sender_change) ... ok
+test_external_total_mismatch_quarantined (test_scopeproof_bridge.BridgeTests.test_external_total_mismatch_quarantined) ... ok
+test_forged_approval_signature (test_scopeproof_bridge.BridgeTests.test_forged_approval_signature) ... ok
+test_happy_path_create_and_readback (test_scopeproof_bridge.BridgeTests.test_happy_path_create_and_readback) ... ok
+test_invalid_id_path_injection (test_scopeproof_bridge.BridgeTests.test_invalid_id_path_injection) ... ok
+test_live_host_refused_before_request (test_scopeproof_bridge.BridgeTests.test_live_host_refused_before_request) ... ok
+test_live_link_never_followed (test_scopeproof_bridge.BridgeTests.test_live_link_never_followed) ... ok
+test_lost_create_reply_reconciles_by_dashboard_id (test_scopeproof_bridge.BridgeTests.test_lost_create_reply_reconciles_by_dashboard_id) ... ok
+test_mock_ledger_cannot_be_promoted_to_live_evidence (test_scopeproof_bridge.BridgeTests.test_mock_ledger_cannot_be_promoted_to_live_evidence) ... ok
+test_modified_amount_and_resigned_plain_hash_does_not_bypass (test_scopeproof_bridge.BridgeTests.test_modified_amount_and_resigned_plain_hash_does_not_bypass) ... ok
+test_modified_evidence_blocks_before_auth (test_scopeproof_bridge.BridgeTests.test_modified_evidence_blocks_before_auth) ... ok
+test_money_strict_parser (test_scopeproof_bridge.BridgeTests.test_money_strict_parser) ... ok
+test_no_money_action_methods (test_scopeproof_bridge.BridgeTests.test_no_money_action_methods) ... ok
+test_payload_corruption_detected (test_scopeproof_bridge.BridgeTests.test_payload_corruption_detected) ... ok
+test_paypal_request_id_stable_for_exact_persisted_payload (test_scopeproof_bridge.BridgeTests.test_paypal_request_id_stable_for_exact_persisted_payload) ... ok
+test_real_adapter_without_credentials_blocks (test_scopeproof_bridge.BridgeTests.test_real_adapter_without_credentials_blocks) ... ok
+test_redirect_refused (test_scopeproof_bridge.BridgeTests.test_redirect_refused) ... ok
+test_restart_preserves_deduplication (test_scopeproof_bridge.BridgeTests.test_restart_preserves_deduplication) ... ok
+test_revised_approved_event_does_not_create_second_invoice (test_scopeproof_bridge.BridgeTests.test_revised_approved_event_does_not_create_second_invoice) ... ok
+test_second_click_does_not_repeat_post (test_scopeproof_bridge.BridgeTests.test_second_click_does_not_repeat_post) ... ok
+test_secret_not_in_public_result_or_ledger (test_scopeproof_bridge.BridgeTests.test_secret_not_in_public_result_or_ledger) ... ok
+test_timeout_after_create_never_repeats (test_scopeproof_bridge.BridgeTests.test_timeout_after_create_never_repeats) ... ok
+test_timeout_before_create_stays_unknown (test_scopeproof_bridge.BridgeTests.test_timeout_before_create_stays_unknown) ... ok
+test_transport_url_allowlist (test_scopeproof_bridge.BridgeTests.test_transport_url_allowlist) ... ok
+test_truthy_approval_invalid (test_scopeproof_bridge.BridgeTests.test_truthy_approval_invalid) ... ok
+test_two_simultaneous_calls_one_post (test_scopeproof_bridge.BridgeTests.test_two_simultaneous_calls_one_post) ... ok
+test_unexpected_create_id (test_scopeproof_bridge.BridgeTests.test_unexpected_create_id) ... ok
+test_unknown_without_invoice_id_requires_reconciliation (test_scopeproof_bridge.BridgeTests.test_unknown_without_invoice_id_requires_reconciliation) ... ok
+test_wrong_reconciliation_invoice_does_not_bind (test_scopeproof_bridge.BridgeTests.test_wrong_reconciliation_invoice_does_not_bind) ... ok
+test_cli_default_has_no_remote_action (test_runner.RunnerTests.test_cli_default_has_no_remote_action) ... ok
+test_cli_project_identity_is_stable_and_workspace_specific (test_runner.RunnerTests.test_cli_project_identity_is_stable_and_workspace_specific) ... ok
+test_legacy_cli_ledger_keeps_old_project_identity (test_runner.RunnerTests.test_legacy_cli_ledger_keeps_old_project_identity) ... ok
+test_local_signing_key_persists_privately (test_runner.RunnerTests.test_local_signing_key_persists_privately) ... ok
+test_missing_cli_key_with_existing_ledger_blocks_before_provider_call (test_runner.RunnerTests.test_missing_cli_key_with_existing_ledger_blocks_before_provider_call) ... ok
+test_no_implicit_ai_spend (test_runner.RunnerTests.test_no_implicit_ai_spend) ... ok
+test_preflight_missing_is_blocked (test_runner.RunnerTests.test_preflight_missing_is_blocked) ... ok
+test_preflight_never_prints_values (test_runner.RunnerTests.test_preflight_never_prints_values) ... ok
+test_sandbox_requires_confirmation (test_runner.RunnerTests.test_sandbox_requires_confirmation) ... ok
+test_symlink_signing_key_refused (test_runner.RunnerTests.test_symlink_signing_key_refused) ... ok
+test_empty_evidence (test_workflow.ReviewTests.test_empty_evidence) ... ok
+test_local_search_never_claims_completion (test_workflow.ReviewTests.test_local_search_never_claims_completion) ... ok
+test_local_search_quotes_are_exact (test_workflow.ReviewTests.test_local_search_quotes_are_exact) ... ok
+test_negated_passage_never_auto_accepted (test_workflow.ReviewTests.test_negated_passage_never_auto_accepted) ... ok
+test_no_overlap_means_no_quote (test_workflow.ReviewTests.test_no_overlap_means_no_quote) ... ok
+test_ollama_checks_local_model_before_post (test_workflow.ReviewTests.test_ollama_checks_local_model_before_post) ... ok
+test_ollama_cloud_refused (test_workflow.ReviewTests.test_ollama_cloud_refused) ... ok
+test_ollama_fixture_is_not_real_inference (test_workflow.ReviewTests.test_ollama_fixture_is_not_real_inference) ... ok
+test_ollama_hallucinated_quote_refused (test_workflow.ReviewTests.test_ollama_hallucinated_quote_refused) ... ok
+test_credentials_refused_in_demo (test_workflow.WorkflowTests.test_credentials_refused_in_demo) ... ok
+test_criteria_change_changes_snapshot (test_workflow.WorkflowTests.test_criteria_change_changes_snapshot) ... ok
+test_duplicate_creation_is_readback_only (test_workflow.WorkflowTests.test_duplicate_creation_is_readback_only) ... ok
+test_each_criterion_required (test_workflow.WorkflowTests.test_each_criterion_required) ... ok
+test_edit_revokes_current_approval (test_workflow.WorkflowTests.test_edit_revokes_current_approval) ... ok
+test_empty_evidence_rejected_even_after_acceptance (test_workflow.WorkflowTests.test_empty_evidence_rejected_even_after_acceptance) ... ok
+test_end_to_end_demo (test_workflow.WorkflowTests.test_end_to_end_demo) ... ok
+test_existing_legacy_project_identity_is_not_rotated (test_workflow.WorkflowTests.test_existing_legacy_project_identity_is_not_rotated) ... ok
+test_expired_approval_not_displayed_as_valid (test_workflow.WorkflowTests.test_expired_approval_not_displayed_as_valid) ... ok
+test_expired_review_link (test_workflow.WorkflowTests.test_expired_review_link) ... ok
+test_explicit_ack_required (test_workflow.WorkflowTests.test_explicit_ack_required) ... ok
+test_fake_auth_is_not_actual_provider_evidence (test_workflow.WorkflowTests.test_fake_auth_is_not_actual_provider_evidence) ... ok
+test_lost_response_reconcile (test_workflow.WorkflowTests.test_lost_response_reconcile) ... ok
+test_new_workspaces_have_independent_billing_identities (test_workflow.WorkflowTests.test_new_workspaces_have_independent_billing_identities) ... ok
+test_no_review_no_invoice (test_workflow.WorkflowTests.test_no_review_no_invoice) ... ok
+test_offline_workflow_does_not_use_network (test_workflow.WorkflowTests.test_offline_workflow_does_not_use_network) ... ok
+test_owner_cannot_self_approve_via_owner_capability (test_workflow.WorkflowTests.test_owner_cannot_self_approve_via_owner_capability) ... ok
+test_parallel_one_invoice (test_workflow.WorkflowTests.test_parallel_one_invoice) ... ok
+test_payload_amount_cannot_be_modified_from_evidence (test_workflow.WorkflowTests.test_payload_amount_cannot_be_modified_from_evidence) ... ok
+test_private_approval_not_exported (test_workflow.WorkflowTests.test_private_approval_not_exported) ... ok
+test_process_restart_recovery (test_workflow.WorkflowTests.test_process_restart_recovery) ... ok
+test_project_identity_and_invoice_survive_restart (test_workflow.WorkflowTests.test_project_identity_and_invoice_survive_restart) ... ok
+test_provider_outcome_remains_bound_to_original_version (test_workflow.WorkflowTests.test_provider_outcome_remains_bound_to_original_version) ... ok
+test_reconcile_does_not_approve_modified_evidence (test_workflow.WorkflowTests.test_reconcile_does_not_approve_modified_evidence) ... ok
+test_repeat_after_new_acceptance_keeps_original_invoice_binding (test_workflow.WorkflowTests.test_repeat_after_new_acceptance_keeps_original_invoice_binding) ... ok
+test_retained_snapshot_contains_original_evidence (test_workflow.WorkflowTests.test_retained_snapshot_contains_original_evidence) ... ok
+test_reviewer_cannot_change_evidence (test_workflow.WorkflowTests.test_reviewer_cannot_change_evidence) ... ok
+test_reviewer_cannot_create (test_workflow.WorkflowTests.test_reviewer_cannot_create) ... ok
+test_reviewer_cannot_export_all_historical_versions (test_workflow.WorkflowTests.test_reviewer_cannot_export_all_historical_versions) ... ok
+test_revision_compare_and_swap (test_workflow.WorkflowTests.test_revision_compare_and_swap) ... ok
+test_sandbox_is_disconnected_without_credentials (test_workflow.WorkflowTests.test_sandbox_is_disconnected_without_credentials) ... ok
+test_sandbox_wrong_email_refused_before_auth (test_workflow.WorkflowTests.test_sandbox_wrong_email_refused_before_auth) ... ok
+test_scope_locked_after_creation (test_workflow.WorkflowTests.test_scope_locked_after_creation) ... ok
+test_scope_revision_revokes_review (test_workflow.WorkflowTests.test_scope_revision_revokes_review) ... ok
+test_stale_review_link_rejected (test_workflow.WorkflowTests.test_stale_review_link_rejected) ... ok
+test_wrong_total_locked (test_workflow.WorkflowTests.test_wrong_total_locked) ... ok
+test_csrf_header_required (test_app_http.HTTPTests.test_csrf_header_required) ... ok
+test_duplicate_json_keys_rejected (test_app_http.HTTPTests.test_duplicate_json_keys_rejected) ... ok
+test_evidence_update_real_http (test_app_http.HTTPTests.test_evidence_update_real_http) ... ok
+test_export_has_no_private_key (test_app_http.HTTPTests.test_export_has_no_private_key) ... ok
+test_foreign_origin_rejected (test_app_http.HTTPTests.test_foreign_origin_rejected) ... ok
+test_health_public (test_app_http.HTTPTests.test_health_public) ... ok
+test_html_security_headers (test_app_http.HTTPTests.test_html_security_headers) ... ok
+test_imported_review_validates_via_http (test_app_http.HTTPTests.test_imported_review_validates_via_http) ... ok
+test_no_auth_post_has_no_side_effect (test_app_http.HTTPTests.test_no_auth_post_has_no_side_effect) ... ok
+test_no_cors (test_app_http.HTTPTests.test_no_cors) ... ok
+test_no_payment_or_send_endpoints (test_app_http.HTTPTests.test_no_payment_or_send_endpoints) ... ok
+test_null_origin_rejected (test_app_http.HTTPTests.test_null_origin_rejected) ... ok
+test_oversized_request_rejected (test_app_http.HTTPTests.test_oversized_request_rejected) ... ok
+test_path_traversal_not_served (test_app_http.HTTPTests.test_path_traversal_not_served) ... ok
+test_prompt_endpoint_returns_current_snapshot_without_contacts (test_app_http.HTTPTests.test_prompt_endpoint_returns_current_snapshot_without_contacts) ... ok
+test_query_tokens_refused (test_app_http.HTTPTests.test_query_tokens_refused) ... ok
+test_rebinding_host_rejected (test_app_http.HTTPTests.test_rebinding_host_rejected) ... ok
+test_state_requires_auth (test_app_http.HTTPTests.test_state_requires_auth) ... ok
+test_unexpected_fields_rejected (test_app_http.HTTPTests.test_unexpected_fields_rejected) ... ok
+test_workspace_lock_prevents_two_processes (test_app_http.HTTPTests.test_workspace_lock_prevents_two_processes) ... ok
+test_duplicate_keys_in_import_refused (test_import_review.ImportTests.test_duplicate_keys_in_import_refused) ... ok
+test_extra_financial_fields_refused (test_import_review.ImportTests.test_extra_financial_fields_refused) ... ok
+test_import_never_approves (test_import_review.ImportTests.test_import_never_approves) ... ok
+test_import_uses_no_network (test_import_review.ImportTests.test_import_uses_no_network) ... ok
+test_invented_quote_refused (test_import_review.ImportTests.test_invented_quote_refused) ... ok
+test_prompt_omits_money_and_recipient (test_import_review.ImportTests.test_prompt_omits_money_and_recipient) ... ok
+test_reviewer_cannot_import_analysis (test_import_review.ImportTests.test_reviewer_cannot_import_analysis) ... ok
+test_stale_ai_review_refused (test_import_review.ImportTests.test_stale_ai_review_refused) ... ok
+test_corrupted_snapshot_refused (test_review_recovery.ReviewRecoveryTests.test_corrupted_snapshot_refused) ... ok
+test_cut_after_id_restores_id_and_reconciles (test_review_recovery.ReviewRecoveryTests.test_cut_after_id_restores_id_and_reconciles) ... ok
+test_cut_after_provider_recovered_without_creation (test_review_recovery.ReviewRecoveryTests.test_cut_after_provider_recovered_without_creation) ... ok
+test_cut_after_verified_is_historical (test_review_recovery.ReviewRecoveryTests.test_cut_after_verified_is_historical) ... ok
+test_cut_before_provider_does_not_unlock_blind_retry (test_review_recovery.ReviewRecoveryTests.test_cut_before_provider_does_not_unlock_blind_retry) ... ok
+test_cut_before_verified_reconciles_read_only (test_review_recovery.ReviewRecoveryTests.test_cut_before_verified_reconciles_read_only) ... ok
+test_failed_authentication_clears_freshness (test_review_recovery.ReviewRecoveryTests.test_failed_authentication_clears_freshness) ... ok
+test_failed_refresh_clears_freshness (test_review_recovery.ReviewRecoveryTests.test_failed_refresh_clears_freshness) ... ok
+test_missing_snapshot_refused_not_replaced (test_review_recovery.ReviewRecoveryTests.test_missing_snapshot_refused_not_replaced) ... ok
+test_new_link_allowed_over_actual_http (test_review_recovery.ReviewRecoveryTests.test_new_link_allowed_over_actual_http) ... ok
+test_new_link_reads_current_version (test_review_recovery.ReviewRecoveryTests.test_new_link_reads_current_version) ... ok
+test_normal_workflow_has_fresh_readback (test_review_recovery.ReviewRecoveryTests.test_normal_workflow_has_fresh_readback) ... ok
+test_old_link_cannot_read_new_evidence (test_review_recovery.ReviewRecoveryTests.test_old_link_cannot_read_new_evidence) ... ok
+test_old_link_cannot_read_new_scope (test_review_recovery.ReviewRecoveryTests.test_old_link_cannot_read_new_scope) ... ok
+test_old_link_invalid_even_if_bytes_same_new_revision (test_review_recovery.ReviewRecoveryTests.test_old_link_invalid_even_if_bytes_same_new_revision) ... ok
+test_recovery_preserves_original_billing_version_after_edit (test_review_recovery.ReviewRecoveryTests.test_recovery_preserves_original_billing_version_after_edit) ... ok
+test_restart_does_not_contact_provider (test_review_recovery.ReviewRecoveryTests.test_restart_does_not_contact_provider) ... ok
+test_restart_revokes_old_capabilities (test_review_recovery.ReviewRecoveryTests.test_restart_revokes_old_capabilities) ... ok
+test_stale_link_rejected_over_actual_http (test_review_recovery.ReviewRecoveryTests.test_stale_link_rejected_over_actual_http) ... ok
+test_verified_restart_is_historical_until_refresh (test_review_recovery.ReviewRecoveryTests.test_verified_restart_is_historical_until_refresh) ... ok
+test_ascii_character_boundary_remains_reviewable (test_evidence_limits.EvidenceLimitTests.test_ascii_character_boundary_remains_reviewable) ... ok
+test_multibyte_utf8_boundary_remains_reviewable (test_evidence_limits.EvidenceLimitTests.test_multibyte_utf8_boundary_remains_reviewable) ... ok
+test_over_character_limit_preserves_saved_snapshot (test_evidence_limits.EvidenceLimitTests.test_over_character_limit_preserves_saved_snapshot) ... ok
+test_utf8_overflow_preserves_saved_revision (test_evidence_limits.EvidenceLimitTests.test_utf8_overflow_preserves_saved_revision) ... ok
+
+----------------------------------------------------------------------
+Ran 202 tests in 12.330s
+
+OK
+
+
+$ node test_ui_unsaved.js
+EXIT: 0
+STDOUT
+{
+  "passed": true,
+  "checks": [
+    "unsaved_edits_visible_and_stale_actions_disabled",
+    "direct_stale_analysis_cannot_bypass_guard",
+    "unsaved_review_does_not_open_empty_window",
+    "navigation_warns_about_unsaved_report",
+    "saving_keeps_text_and_enables_current_version_actions",
+    "explicit_discard_restores_last_saved_report",
+    "sample_loading_requires_save_before_review",
+    "failed_save_preserves_unsaved_text",
+    "late_analysis_response_does_not_erase_new_edits",
+    "late_save_response_keeps_more_recent_edits",
+    "reverting_to_old_text_during_save_is_preserved_as_new_unsaved_edit",
+    "editors_locked_until_initial_state_has_loaded",
+    "pending_v1_request_cannot_overlap_and_roll_back_v2_save",
+    "unsaved_name_amount_and_currency_block_stale_review_and_draft_until_explicit_discard",
+    "criterion_edits_are_saved_explicitly_before_review",
+    "both_editors_can_be_saved_sequentially_without_losing_the_other",
+    "late_scope_save_preserves_newer_amount_edit",
+    "late_refresh_preserves_name_currency_and_criterion_edits",
+    "failed_scope_save_retains_edits_and_releases_busy_lock",
+    "criterion_findings_and_quotes_are_paired_without_accepting_the_work",
+    "confirmed_provider_rejection_blocks_creation_and_reconciliation_without_exposing_raw_reason"
+  ],
+  "check_count": 21,
+  "transport": "DOM/HTTP adapters; actual app.js; initial state from actual Python Workspace",
+  "browser_rendering_tested": false,
+  "external_calls": 0
+}
+
+STDERR
+
+
+$ /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python demo_evidence/run_demo.py --app . --replay --output demo_evidence/replay_0_3_4.json
+EXIT: 0
+STDOUT
+{"all_passed": true, "mode": "FROZEN_EXTERNAL_RESPONSE_REPLAY", "artifact": "/workspace/scratch/c31d57196496/ScopeProof_app_0_3_4/demo_evidence/replay_0_3_4.json", "http_request_count": 16, "real_paypal_calls": 0}
+
+STDERR
