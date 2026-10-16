@@ -1,0 +1,98 @@
+name: ScopeProof remote connectivity and OAuth
+
+on:
+  push:
+    branches: [main]
+    paths: [.github/workflows/scopeproof-remote-check.yml]
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Connectivity uses no secrets. OAuth requires two authorized Sandbox secrets.
+        required: true
+        default: connectivity
+        type: choice
+        options: [connectivity, oauth]
+
+# Standard public-repository runner only; no paid APIs, storage artifacts or deploys.
+permissions: {}
+concurrency:
+  group: scopeproof-remote-check
+  cancel-in-progress: false
+
+jobs:
+  connectivity:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Load the verified 0.3.4 source without credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init source
+          git -C source remote add origin https://github.com/carlosjunquerovila-afk/scopeproof.git
+          git -C source fetch --depth 1 origin 5af9f89a780ea265f76fef26d9b9614b93d46f4f
+          git -C source checkout --detach FETCH_HEAD
+          test "$(git -C source rev-parse HEAD)" = 5af9f89a780ea265f76fef26d9b9614b93d46f4f
+      - name: Verify the application on this remote host
+        working-directory: source
+        run: |
+          python3 run_tests.py
+          node test_ui_unsaved.js
+      - name: Probe the actual Sandbox API without credentials
+        working-directory: source
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          import scopeproof_bridge as b
+          report = {"source_commit": "5af9f89a780ea265f76fef26d9b9614b93d46f4f",
+                    "endpoint": b.PAYPAL + "/v1/oauth2/token",
+                    "credentials_used": False, "authenticated": False,
+                    "invoice_created": False, "payment_executed": False}
+          try:
+              reply = b.HTTPS(b.PAYPAL)("POST", report["endpoint"],
+                  {"Content-Type": "application/x-www-form-urlencoded"},
+                  b"grant_type=client_credentials")
+              report["http_status"] = reply.status
+              report["status"] = "SANDBOX_REACHABLE_AUTH_REQUIRED" if reply.status == 401 else "UNEXPECTED_HTTP_STATUS"
+          except b.Blocked:
+              report["status"] = "SANDBOX_CONNECTION_FAILED"
+          print(json.dumps(report, sort_keys=True))
+          with Path(os.environ["GITHUB_STEP_SUMMARY"]).open("a") as out:
+              out.write("## PayPal Sandbox connectivity\n\n```json\n" + json.dumps(report, indent=2) + "\n```\n")
+              out.write("A 401 establishes connectivity only. OAuth, invoice create/read-back, the actual AI workflow and video are separate pending evidence.\n")
+          raise SystemExit(0 if report["status"] == "SANDBOX_REACHABLE_AUTH_REQUIRED" else 1)
+          PY
+      - name: Authenticate only on an explicitly selected manual OAuth run
+        if: github.event_name == 'workflow_dispatch' && inputs.mode == 'oauth'
+        working-directory: source
+        env:
+          PAYPAL_SANDBOX_CLIENT_ID: ${{ secrets.PAYPAL_SANDBOX_CLIENT_ID }}
+          PAYPAL_SANDBOX_CLIENT_SECRET: ${{ secrets.PAYPAL_SANDBOX_CLIENT_SECRET }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          import scopeproof_bridge as b
+          names = ("PAYPAL_SANDBOX_CLIENT_ID", "PAYPAL_SANDBOX_CLIENT_SECRET")
+          report = {"authenticated": False, "invoice_created": False,
+                    "payment_executed": False, "model_inference_executed": False}
+          if not all(os.environ.get(name) for name in names):
+              report["status"] = "BLOCKED_MISSING_SANDBOX_SECRETS"
+          else:
+              try:
+                  b.SandboxPayPal.from_env().authenticate()
+                  report.update(status="SANDBOX_OAUTH_VERIFIED", authenticated=True)
+              except b.Blocked:
+                  report["status"] = "SANDBOX_OAUTH_NOT_VERIFIED"
+              except Exception:
+                  report["status"] = "FAILED_CLOSED"
+          # Never output credentials, tokens, request headers or provider bodies.
+          print(json.dumps(report, sort_keys=True))
+          with Path(os.environ["GITHUB_STEP_SUMMARY"]).open("a") as out:
+              out.write("## Sandbox authentication\n\n```json\n" + json.dumps(report, indent=2) + "\n```\n")
+          raise SystemExit(0 if report["authenticated"] else 1)
+          PY
