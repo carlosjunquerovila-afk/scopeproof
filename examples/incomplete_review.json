@@ -1,0 +1,28 @@
+{
+  "snapshot": "2d12f14e0b3ce7bcab652618aaedd83b3b17b789618a7ddfd48e826ef1147482",
+  "analysis": {
+    "criteria": [
+      {
+        "criterion_id": "responsive",
+        "status": "unclear",
+        "evidence_id": "acceptance-report",
+        "quote": "Responsive layout verified at 375 pixels only.",
+        "reason": "Only one breakpoint is reported; the 768 and 1440 pixel criteria are not evidenced."
+      },
+      {
+        "criterion_id": "contact",
+        "status": "missing",
+        "evidence_id": "acceptance-report",
+        "quote": "Contact form submission has NOT been tested.",
+        "reason": "The supplied report explicitly says this test was not performed."
+      },
+      {
+        "criterion_id": "accessibility",
+        "status": "missing",
+        "evidence_id": "acceptance-report",
+        "quote": "Accessibility review is still pending.",
+        "reason": "A pending review does not evidence the absence of critical issues."
+      }
+    ]
+  }
+}
