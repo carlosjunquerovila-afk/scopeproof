@@ -1,0 +1,28 @@
+{
+  "snapshot": "2c8f6cf18ae2e3bc11d5f09a888468cf8d83146c1b4c92998cd4649794ffadf7",
+  "analysis": {
+    "criteria": [
+      {
+        "criterion_id": "responsive",
+        "status": "evidence_found",
+        "evidence_id": "acceptance-report",
+        "quote": "Responsive layout verified at 375, 768 and 1440 pixels.",
+        "reason": "The report names all three requested breakpoints. This remains a reported claim for human inspection."
+      },
+      {
+        "criterion_id": "contact",
+        "status": "evidence_found",
+        "evidence_id": "acceptance-report",
+        "quote": "Contact form submission tested successfully in the staging environment.",
+        "reason": "The report describes the requested staging test; this text does not independently verify the test."
+      },
+      {
+        "criterion_id": "accessibility",
+        "status": "evidence_found",
+        "evidence_id": "acceptance-report",
+        "quote": "Accessibility review has no critical issues in the supplied report.",
+        "reason": "The report states the requested result; review the underlying work before accepting."
+      }
+    ]
+  }
+}
