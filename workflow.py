@@ -8,8 +8,9 @@ from pathlib import Path
 import scopeproof_guard as guard
 import scopeproof_bridge as b
 from evidence_review import lexical_review, OllamaAnalyzer
+from delivery_report import create_export
 
-VERSION='0.3.4-sandbox-identity'
+VERSION='0.3.5-delivery-record'
 FULL_REPORT='Responsive layout verified at 375, 768 and 1440 pixels.\nContact form submission tested successfully in the staging environment.\nAccessibility review has no critical issues in the supplied report.'
 INCOMPLETE_REPORT='Responsive layout verified at 375 pixels only.\nContact form submission has NOT been tested.\nAccessibility review is still pending.'
 CRITERIA={'responsive':'Responsive layout verified at 375, 768 and 1440 pixels.',
@@ -294,6 +295,9 @@ class Workspace:
             out['verified_local_event_count']=self.ledger.check_events()
             out['tamper_proof_claim']=False
             return out
+    def delivery_report(self,token):
+        with self.lock:
+            return create_export(self.export(token),generated_at=b.utc())
     def fault(self,token,fault):
         with self.lock:
             self.require_owner(token);b.require(self.mode=='demo','FAULT_INJECTION_DEMO_ONLY')

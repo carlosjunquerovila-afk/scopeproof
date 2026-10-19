@@ -71,6 +71,7 @@ class Handler(BaseHTTPRequestHandler):
                 name,kind=static[self.path];return self.send_data(200,(ROOT/'static'/name).read_bytes(),kind)
             if self.path=='/api/state':return self.send_data(200,self.ws.state(self.token()))
             if self.path=='/api/export':return self.send_data(200,self.ws.export(self.token()))
+            if self.path=='/api/delivery-report':return self.send_data(200,self.ws.delivery_report(self.token()))
             if self.path=='/api/review-prompt':return self.send_data(200,self.ws.review_prompt(self.token()))
             self.send_data(404,{'error':'NOT_FOUND'})
         except bridge.Blocked as e:self.send_data(403,{'error':str(e)})
