@@ -2,9 +2,9 @@
 
 **Evidence before invoices.** ScopeProof helps a web studio connect agreed scope, delivery evidence, explicit version-specific review and an invoice draft. AI assists the review; a person decides whether to accept the work. The price comes from the agreed scope.
 
-**Current status, 16 October 2026:** version 0.3.4 has passed its recorded local verification: **202 Python tests, five HTTP fault scenarios, 21 JavaScript-controller checks and a 16-request historical-response replay**. The local prototype has a clearly labelled provider simulator; authenticated PayPal Sandbox create/read-back remains a release gate. Devpost registration is complete and the entry is saved as a draft, not finally submitted.
+**Current status, 19 October 2026:** version 0.3.4 passed its recorded local verification: **202 Python tests, five HTTP fault scenarios, 21 JavaScript-controller checks and a 16-request historical-response replay**. A separate one-shot GitHub Actions run authenticated to PayPal Sandbox, created an unsent synthetic draft through the core adapter and verified a direct read-back. The default UI still uses a clearly labelled provider simulator; browser-to-server-to-PayPal execution has not been demonstrated. Devpost registration is complete and the entry is saved as a draft, not finally submitted.
 
-The recorded results below belong to the indicated runtimes. `VERIFICATION_0_3_4.txt` records the current run and the verified runtime file hashes; earlier reports remain historical evidence. See `RELEASE_0_3_4.md` for the changes.
+The recorded results below belong to the indicated runtimes. `VERIFICATION_0_3_4.txt` records the local 0.3.4 checks and verified runtime file hashes; the later Sandbox run is recorded separately below. Earlier reports remain historical evidence. See `RELEASE_0_3_4.md` for the changes.
 
 | Verification | Recorded result | Boundary |
 |---|---|---|
@@ -13,7 +13,7 @@ The recorded results below belong to the indicated runtimes. `VERIFICATION_0_3_4
 | Interface controller checks, 0.3.4 | 21 passing checks; JavaScript syntax check passes | Real application JavaScript with DOM/HTTP adapters. Includes criterion-to-quote matching without automatic approval and rejection without another creation request. No browser rendering or provider validation. |
 | Fresh external AI review through real app HTTP | Two newly generated ChatGPT responses imported and validated; 16 requests; all recorded checks pass | Original fresh run used runtime `0.3.2-evidence-limits`. A 16-request saved-output replay also passed on `0.3.3-edit-safety`. The app made no model API calls; provider responses were simulated. |
 | Historical-response replay, 0.3.4 | 16 actual loopback HTTP requests pass in `demo_evidence/replay_0_3_4.json` | The harness reconstructs the legacy project identity only inside a temporary simulator workspace. Original prompt and response bytes are unchanged. No new inference or PayPal call. |
-| PayPal Sandbox create + direct read-back | Pending | An account login or a simulated invoice does not satisfy this gate. |
+| PayPal Sandbox core-adapter create + direct read-back | `VERIFIED_DRAFT` in [one-shot run #1](https://github.com/carlosjunquerovila-afk/scopeproof/actions/runs/39273764876); [redacted receipt](demo_evidence/sandbox_transport_20261019.json) | Exact 0.3.4 adapter on a GitHub Actions runner, with synthetic local review. OAuth, draft POST and matching GET were verified. No app UI, fresh inference, customer approval, send or payment in this run. |
 
 These are internal checks, not an independent audit, production certification, customer study or prediction of a prize.
 
@@ -98,7 +98,7 @@ The supported seller domain is `@business.example.com`; the buyer domain is `@pe
 
 Credentials remain in the running server process and are not written by the app to its workspace database, exported report, source or application logs. Browser credential fields are cleared after the attempt. The local process, operating system and filesystem remain trusted; memory, privileged debugging and system crash dumps are outside that assurance. Re-enter credentials after restarting.
 
-Before claiming a completed integration, preserve an actual authorized Sandbox draft creation and direct read-back matching amount, currency, sender, recipient, description and invoice number. Browser login, OAuth success alone or a simulator receipt is insufficient.
+The core adapter has a recorded authorized Sandbox draft creation and direct read-back matching supported fields, captured in `demo_evidence/sandbox_transport_20261019.json`. That one-shot runner did not exercise the browser workflow below. Browser login, OAuth success alone or a simulator receipt would not establish this provider result.
 
 ### Sandbox run checklist
 
@@ -157,7 +157,8 @@ Measure actual review time, corrections, misunderstandings, delivery labor and o
 - [x] Devpost registration and saved draft: https://devpost.com/software/scopeproof-h4bvsr
 - [x] Replay the saved AI outputs over 16 actual HTTP requests on `0.3.3-edit-safety`; no fresh model inference during replay.
 - [x] Local integrated verification of the final 0.3.4 runtime recorded in `VERIFICATION_0_3_4.txt`.
-- [ ] Actual application-to-PayPal Sandbox create and matching direct read-back.
+- [x] Actual core-adapter-to-PayPal Sandbox draft creation and matching direct read-back in the one-shot runner; synthetic local review only.
+- [ ] Browser-to-server-to-PayPal workflow with fresh AI interaction and explicit UI review.
 - [ ] Ordinary-browser footage of the final workflow, including actual AI interaction.
 - [ ] Public tested MIT source and truthful public video under three minutes.
 - [ ] Final declarations, submission and confirmation receipt.
