@@ -1,0 +1,68 @@
+name: ScopeProof one-shot PayPal Sandbox draft
+
+# A failed or uncertain first run consumes this workflow's opportunity.
+on:
+  workflow_dispatch:
+
+permissions: {}
+concurrency:
+  group: scopeproof-sandbox-once
+  cancel-in-progress: false
+
+jobs:
+  one_shot_gate:
+    if: github.repository == 'carlosjunquerovila-afk/scopeproof' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      actions: read
+    steps:
+      - name: Fetch the public control script at this workflow commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init control
+          git -C control remote add origin https://github.com/carlosjunquerovila-afk/scopeproof.git
+          git -C control fetch --depth 1 origin "$GITHUB_SHA"
+          git -C control checkout --detach FETCH_HEAD
+          test "$(git -C control rev-parse HEAD)" = "$GITHUB_SHA"
+      - name: Refuse reruns, other branches and any earlier workflow execution
+        env:
+          GH_ACTIONS_READ_TOKEN: ${{ github.token }}
+        shell: bash
+        run: python3 control/tools/sandbox_once.py preflight
+
+  draft_and_readback:
+    needs: one_shot_gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    environment: scopeproof-sandbox-validation
+    permissions: {}
+    steps:
+      - name: Fetch the reviewed control script and exact ScopeProof v0.3.4 source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init control
+          git -C control remote add origin https://github.com/carlosjunquerovila-afk/scopeproof.git
+          git -C control fetch --depth 1 origin "$GITHUB_SHA"
+          git -C control checkout --detach FETCH_HEAD
+          test "$(git -C control rev-parse HEAD)" = "$GITHUB_SHA"
+          git init source
+          git -C source remote add origin https://github.com/carlosjunquerovila-afk/scopeproof.git
+          git -C source fetch --depth 1 origin 5af9f89a780ea265f76fef26d9b9614b93d46f4f
+          git -C source checkout --detach FETCH_HEAD
+          test "$(git -C source rev-parse HEAD)" = 5af9f89a780ea265f76fef26d9b9614b93d46f4f
+      - name: Run local v0.3.4 regression tests before loading Sandbox secrets
+        working-directory: source
+        run: |
+          python3 run_tests.py
+          node test_ui_unsaved.js
+      - name: Authenticate, create one unsent draft, and read it back
+        env:
+          PAYPAL_SANDBOX_CLIENT_ID: ${{ secrets.PAYPAL_SANDBOX_CLIENT_ID }}
+          PAYPAL_SANDBOX_CLIENT_SECRET: ${{ secrets.PAYPAL_SANDBOX_CLIENT_SECRET }}
+          PAYPAL_SANDBOX_SELLER_EMAIL: ${{ secrets.PAYPAL_SANDBOX_SELLER_EMAIL }}
+          PAYPAL_SANDBOX_BUYER_EMAIL: ${{ secrets.PAYPAL_SANDBOX_BUYER_EMAIL }}
+        shell: bash
+        run: python3 control/tools/sandbox_once.py draft source
