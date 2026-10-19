@@ -1,0 +1,21 @@
+{
+  "evidence_type": "REDACTED_PUBLIC_GITHUB_ACTIONS_RECEIPT",
+  "receipt_logged_at_utc": "2026-10-19T14:59:05.6331472Z",
+  "run_url": "https://github.com/carlosjunquerovila-afk/scopeproof/actions/runs/39273764876",
+  "run_id": 39273764876,
+  "job_id": 118132699320,
+  "run_number": 1,
+  "run_attempt": 1,
+  "run_conclusion": "success",
+  "workflow_commit": "ffca1297189fe193ebdc451dac5177f141d33d40",
+  "source_commit": "5af9f89a780ea265f76fef26d9b9614b93d46f4f",
+  "status": "VERIFIED_DRAFT",
+  "authenticated_post_and_direct_get_verified": true,
+  "synthetic_local_review": true,
+  "invoice_sent_by_this_app": false,
+  "payment_attempted_by_this_app": false,
+  "evidence_boundary": "CORE_ADAPTER_ON_GITHUB_ACTIONS_RUNNER_NOT_BROWSER_TO_PROVIDER_UI",
+  "fresh_model_inference_during_this_run": false,
+  "customer_approval_proved": false,
+  "private_invoice_identifier_published": false
+}
