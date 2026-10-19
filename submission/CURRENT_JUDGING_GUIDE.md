@@ -2,6 +2,12 @@
 
 ScopeProof is a local desktop-browser prototype for a web studio's fixed-price milestone: agreed criteria, textual delivery evidence, AI-assisted findings, an explicit version-specific review, and an invoice draft. It is MIT licensed and uses Python 3.11+ standard library, SQLite and HTML/CSS/JavaScript. The [public source repository](https://github.com/carlosjunquerovila-afk/scopeproof) contains the application and full README.
 
+## Delivery workflow candidate, 0.3.5
+
+The source candidate now includes **Download delivery report**, connected to the real local application's authenticated `/api/delivery-report` endpoint. It downloads the saved scope, criterion findings, evidence, human-review state and draft status as a self-contained HTML handover. Reports remain readable offline and have print styles. Unsaved edits block export; acceptance expiration, process restart and drafts tied to older evidence are labelled. The offline checker validates the visible document against its embedded record, not customer identity or independent notarization.
+
+The [0.3.5 change guide](../DELIVERY_WORKFLOW_0_3_5.md) includes reproduction instructions. A new synthetic project was exercised through 16 actual loopback HTTP requests: no premature draft, explicit local review, one simulated draft and downloadable reports before and after evidence changed. This separate run has no browser rendering, new model inference, customer participation or PayPal request. The earlier core Sandbox receipt below still belongs to its recorded 0.3.4 execution; it must not be presented as a result of this new UI feature.
+
 ## Run the working build
 
 On the **same computer as the browser**, open a terminal in the extracted repository root and run `python app.py` (Windows PowerShell: `py -3.11 app.py`). The app binds to `127.0.0.1:8765`, opens a private local session and needs no dependency installation or credentials in its default mode. Leave the terminal running; use the complete private URL printed there if a browser did not open. Do not share that session URL. The banner says **LOCAL SIMULATOR · NOT PAYPAL**. The README gives the review walkthrough. A remote container's `localhost` is not your computer's browser. For Windows, an alternative is the portable launcher from the public [v0.3.4 release](https://github.com/carlosjunquerovila-afk/scopeproof/releases/tag/v0.3.4): run `py -3 ScopeProof_ejecutar_0_3_4.py` with Python 3.11 or newer. Default mode does not contact PayPal. Stop with Ctrl+C.
