@@ -266,9 +266,17 @@ class Workspace:
             raw=s['approval']['record'];raw['reviewed_evidence']=tuple(tuple(p) for p in raw['reviewed_evidence'])
             approval=guard.Approval(**raw);scope=scope_from(s['scope'])
             billing_key=b.safe_draft(scope,'homepage',{k:v.encode() for k,v in s['artifacts'].items()},approval)['billing_key']
+            # A binding written before authentication/claim may survive a refusal
+            # or crash. Only a ledger intent reserves the economic event. Rebind
+            # orphan preparation to the current inputs, but never an existing intent.
+            with closing(self.ledger.connect()) as db:
+                claimed=db.execute('SELECT 1 FROM intents WHERE key=?',(billing_key,)).fetchone() is not None
             with closing(self.connect()) as db:
-                db.execute('INSERT OR IGNORE INTO billing_versions VALUES(?,?)',(billing_key,snap));db.commit()
-                original=db.execute('SELECT snapshot FROM billing_versions WHERE key=?',(billing_key,)).fetchone()[0]
+                if not claimed:
+                    db.execute('INSERT OR REPLACE INTO billing_versions VALUES(?,?)',(billing_key,snap));db.commit()
+                binding=db.execute('SELECT snapshot FROM billing_versions WHERE key=?',(billing_key,)).fetchone()
+                b.require(binding is not None,'BILLING_SNAPSHOT_MISSING')
+                original=binding[0]
             self.provider_record_fresh_for_session=False
             out=b.execute(scope,'homepage',{k:v.encode() for k,v in s['artifacts'].items()},approval,
                           s['approval']['envelope'],self.signer,self.ledger,self.paypal)
