@@ -63,6 +63,40 @@ class DeliveryReportTests(unittest.TestCase):
         self.assertEqual(r['draft']['recorded_revision'], s['revision'])
         self.assertIn('It does not accept or invoice the current delivery', render_record(r))
 
+    def test_preflight_failure_does_not_bind_future_draft_to_old_evidence(self):
+        for failure in ('approval', 'authentication'):
+            for restart in (False, True):
+                with self.subTest(failure=failure, restart=restart):
+                    w = Workspace(Path(self.temp.name) / (failure + str(restart)))
+                    owner = w.owner_token
+                    def accept():
+                        state = w.state(owner)
+                        reviewer = w.invite(owner)['token']
+                        w.approve(reviewer, state['snapshot'],
+                                  {k: True for k in state['criteria']}, True)
+                        return state
+                    before = accept()
+                    target = w.signer if failure == 'approval' else w.paypal
+                    method = 'check' if failure == 'approval' else 'authenticate'
+                    with patch.object(target, method, side_effect=bridge.Blocked('PREFLIGHT_FAILED')):
+                        with self.assertRaises(bridge.Blocked):
+                            w.draft(owner, before['snapshot'], True)
+                    self.assertEqual(w.paypal.count(), 0)
+                    if restart:
+                        w = Workspace(w.root)
+                        owner = w.owner_token
+                    w.update_evidence(owner, before['revision'], {'acceptance-report': FULL_REPORT})
+                    current = accept()
+                    result = w.draft(owner, current['snapshot'], True)
+                    self.assertEqual(result['outcome']['status'], 'VERIFIED_DRAFT')
+                    self.assertEqual(result['outcome_snapshot'], current['snapshot'])
+                    record = make_record(w.export(owner), generated_at='audit')
+                    self.assertTrue(record['draft']['current_version'])
+                    self.assertEqual(record['draft']['recorded_revision'], current['revision'])
+                    self.assertEqual(w.paypal.count(), 1)
+                    restored = Workspace(w.root)
+                    self.assertEqual(restored.state(restored.owner_token)['outcome_snapshot'], current['snapshot'])
+
     def test_restarted_session_labels_provider_verification_historical(self):
         s = self.complete()
         self.w.draft(self.owner, s['snapshot'], True)
