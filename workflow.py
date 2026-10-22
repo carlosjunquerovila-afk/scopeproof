@@ -8,8 +8,9 @@ from pathlib import Path
 import scopeproof_guard as guard
 import scopeproof_bridge as b
 from evidence_review import lexical_review, OllamaAnalyzer
+from delivery_report import create_export
 
-VERSION='0.3.4-sandbox-identity'
+VERSION='0.3.5-delivery-record'
 FULL_REPORT='Responsive layout verified at 375, 768 and 1440 pixels.\nContact form submission tested successfully in the staging environment.\nAccessibility review has no critical issues in the supplied report.'
 INCOMPLETE_REPORT='Responsive layout verified at 375 pixels only.\nContact form submission has NOT been tested.\nAccessibility review is still pending.'
 CRITERIA={'responsive':'Responsive layout verified at 375, 768 and 1440 pixels.',
@@ -265,9 +266,17 @@ class Workspace:
             raw=s['approval']['record'];raw['reviewed_evidence']=tuple(tuple(p) for p in raw['reviewed_evidence'])
             approval=guard.Approval(**raw);scope=scope_from(s['scope'])
             billing_key=b.safe_draft(scope,'homepage',{k:v.encode() for k,v in s['artifacts'].items()},approval)['billing_key']
+            # A binding written before authentication/claim may survive a refusal
+            # or crash. Only a ledger intent reserves the economic event. Rebind
+            # orphan preparation to the current inputs, but never an existing intent.
+            with closing(self.ledger.connect()) as db:
+                claimed=db.execute('SELECT 1 FROM intents WHERE key=?',(billing_key,)).fetchone() is not None
             with closing(self.connect()) as db:
-                db.execute('INSERT OR IGNORE INTO billing_versions VALUES(?,?)',(billing_key,snap));db.commit()
-                original=db.execute('SELECT snapshot FROM billing_versions WHERE key=?',(billing_key,)).fetchone()[0]
+                if not claimed:
+                    db.execute('INSERT OR REPLACE INTO billing_versions VALUES(?,?)',(billing_key,snap));db.commit()
+                binding=db.execute('SELECT snapshot FROM billing_versions WHERE key=?',(billing_key,)).fetchone()
+                b.require(binding is not None,'BILLING_SNAPSHOT_MISSING')
+                original=binding[0]
             self.provider_record_fresh_for_session=False
             out=b.execute(scope,'homepage',{k:v.encode() for k,v in s['artifacts'].items()},approval,
                           s['approval']['envelope'],self.signer,self.ledger,self.paypal)
@@ -294,6 +303,9 @@ class Workspace:
             out['verified_local_event_count']=self.ledger.check_events()
             out['tamper_proof_claim']=False
             return out
+    def delivery_report(self,token):
+        with self.lock:
+            return create_export(self.export(token),generated_at=b.utc())
     def fault(self,token,fault):
         with self.lock:
             self.require_owner(token);b.require(self.mode=='demo','FAULT_INJECTION_DEMO_ONLY')

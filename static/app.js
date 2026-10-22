@@ -3,7 +3,7 @@ const $=id=>document.getElementById(id);
 let token=new URLSearchParams(location.hash.slice(1)).get('token')||sessionStorage.getItem('scopeproof-session');
 if(token){sessionStorage.setItem('scopeproof-session',token);history.replaceState(null,'',location.pathname);}
 let state=null,busy=false;
-const savedActions=['analyze','exportPrompt','importReview','invite','createDraft','refresh','reconcile','connectPayPal','export','setFault','approve'];
+const savedActions=['analyze','exportPrompt','importReview','invite','createDraft','refresh','reconcile','connectPayPal','export','deliveryReport','setFault','approve'];
 function scopeEditor(){const criteria={};document.querySelectorAll('[data-scope-criterion]').forEach(e=>criteria[e.dataset.scopeCriterion]=e.value);return {name:$('scopeName').value,cents:String($('scopeCents').value),currency:$('scopeCurrency').value,criteria};}
 function savedScope(s){const m=s.scope.milestones[0];return {name:m.name,cents:String(m.amount_cents),currency:s.scope.currency,criteria:s.criteria};}
 function sameScope(a,b){return a.name===b.name&&a.cents===b.cents&&a.currency===b.currency&&Object.keys(a.criteria).length===Object.keys(b.criteria).length&&Object.keys(a.criteria).every(k=>a.criteria[k]===b.criteria[k]);}
@@ -137,5 +137,13 @@ $('connectPayPal').onclick=()=>action(async()=>{
  try{show(await api('/api/connect-paypal',payload));notice('Sandbox authentication checked. Review the updated recipient before creating a draft.',true);}finally{$('clientId').value='';$('clientSecret').value='';payload.secret='';payload.client_id='';}
 });
 $('export').onclick=()=>action(async()=>{const data=await api('/api/export');const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='scopeproof-local-record.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);});
+$('deliveryReport').onclick=()=>action(async()=>{
+ const data=await api('/api/delivery-report');
+ // Only the local authenticated server creates the escaped, script-free document.
+ const blob=new Blob([data.html],{type:'text/html;charset=utf-8'});
+ const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=data.filename;a.click();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
+ notice('Downloaded the saved-version delivery record. Open it in your browser to read or print to PDF. Review its environment and version before sharing.',true);
+});
 updateEditing();
 action(async()=>show(await api('/api/state')),true);

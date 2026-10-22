@@ -1,8 +1,18 @@
-# ScopeProof 0.3.4 — release candidate
+# ScopeProof 0.3.5 — delivery workflow candidate
 
 **Evidence before invoices.** ScopeProof helps a web studio connect agreed scope, delivery evidence, explicit version-specific review and an invoice draft. AI assists the review; a person decides whether to accept the work. The price comes from the agreed scope.
 
-**Current status, 19 October 2026:** version 0.3.4 passed its recorded local verification: **202 Python tests, five HTTP fault scenarios, 21 JavaScript-controller checks and a 16-request historical-response replay**. A separate one-shot GitHub Actions run authenticated to PayPal Sandbox, created an unsent synthetic draft through the core adapter and verified a direct read-back. The default UI still uses a clearly labelled provider simulator; browser-to-server-to-PayPal execution has not been demonstrated. Devpost registration is complete and the entry is saved as a draft, not finally submitted.
+## New in 0.3.5: a usable delivery handover
+
+The existing local application now downloads a self-contained delivery record from the saved workspace: agreed scope and price, criterion findings and quotations, explicit review, evidence and draft status. It opens offline and includes print styles. The record marks expired acceptance and distinguishes an earlier draft from the current evidence. Exporting does not create, send or pay an invoice. The new **Download delivery report** button is blocked while scope or report edits are unsaved.
+
+The recorded local 0.3.5 checks passed **214 Python tests, five HTTP fault scenarios and 24 JavaScript-controller checks**. A new synthetic project completed **16 actual loopback HTTP requests**, downloading records before acceptance, after an explicitly accepted version and after a later edit revoked acceptance. The provider and reviewer were simulated; no browser rendering, model inference or PayPal request is claimed for this new run.
+
+The candidate uses runtime `0.3.5-delivery-record`. See [the workflow and verification guide](DELIVERY_WORKFLOW_0_3_5.md) for the user flow, offline integrity checker and fresh-project HTTP reproduction. The changes extend the local product; no hosted service, customer authentication, browser-to-PayPal demonstration or commercial validation is added.
+
+## Historical 0.3.4 verification baseline
+
+**Recorded status, 19 October 2026, before this delivery change:** version 0.3.4 passed its recorded local verification: **202 Python tests, five HTTP fault scenarios, 21 JavaScript-controller checks and a 16-request historical-response replay**. A separate one-shot GitHub Actions run authenticated to PayPal Sandbox, created an unsent synthetic draft through the core adapter and verified a direct read-back. The default UI still uses a clearly labelled provider simulator; browser-to-server-to-PayPal execution has not been demonstrated. Devpost registration is complete and the entry is saved as a draft, not finally submitted.
 
 The recorded results below belong to the indicated runtimes. `VERIFICATION_0_3_4.txt` records the local 0.3.4 checks and verified runtime file hashes; the later Sandbox run is recorded separately below. Earlier reports remain historical evidence. See `RELEASE_0_3_4.md` for the changes.
 

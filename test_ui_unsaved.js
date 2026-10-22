@@ -10,11 +10,11 @@ assert.equal(init.status,0,init.stderr);const initial=JSON.parse(init.stdout);
 const copy=x=>JSON.parse(JSON.stringify(x));
 const tick=()=>new Promise(r=>setImmediate(r));
 async function setup(options={}){
- const nodes=new Map(),all=[],calls=[],listeners={};let server=copy(initial),nextResponse=null,popups=0,releaseInitial=null;
- class El{constructor(tag='div'){this.tag=tag;this.children=[];this.value='';this.dataset={};this.hidden=false;this.disabled=false;this.textContent='';all.push(this);}append(...v){this.children.push(...v);}replaceChildren(...v){this.children=v;}select(){}click(){return this.onclick?.();}}
+ const nodes=new Map(),all=[],calls=[],listeners={},blobs=[],downloads=[];let server=copy(initial),nextResponse=null,popups=0,releaseInitial=null;
+ class El{constructor(tag='div'){this.tag=tag;this.children=[];this.value='';this.dataset={};this.hidden=false;this.disabled=false;this.textContent='';all.push(this);}append(...v){this.children.push(...v);}replaceChildren(...v){this.children=v;}select(){}click(){if(this.tag==='a')downloads.push({href:this.href,filename:this.download});return this.onclick?.();}}
  for(const match of html.matchAll(/<[^>]*\bid="([^"]+)"[^>]*>/g)){const e=new El();e.disabled=/\bdisabled\b/.test(match[0]);e.readOnly=/\breadonly\b/.test(match[0]);nodes.set(match[1],e);}
  nodes.get('engine').value='local_search';
- const env={URLSearchParams,Intl,Date,JSON,Number,Error,Blob,setTimeout,location:{hash:'#token=test',pathname:'/'},history:{replaceState(){}},sessionStorage:{getItem(){return null;},setItem(){}},document:{getElementById(id){assert(nodes.has(id),'Unknown DOM node '+id);return nodes.get(id);},createElement(tag){return new El(tag);},querySelectorAll(selector){const key=selector==='[data-criterion]'?'criterion':selector==='[data-scope-criterion]'?'scopeCriterion':null;const connected=new Set();const walk=e=>{if(!e||typeof e!=='object'||connected.has(e))return;connected.add(e);e.children.forEach(walk);};nodes.forEach(walk);return key?[...connected].filter(x=>x.dataset[key]!==undefined):[];}},window:{addEventListener(name,cb){listeners[name]=cb;},open(){popups++;return {opener:null,location:{}};}},fetch:async(path,opts)=>{
+ const env={URLSearchParams,URL:{createObjectURL(blob){blobs.push(blob);return 'blob:controller-test-'+blobs.length;},revokeObjectURL(){}},Intl,Date,JSON,Number,Error,Blob,setTimeout,location:{hash:'#token=test',pathname:'/'},history:{replaceState(){}},sessionStorage:{getItem(){return null;},setItem(){}},document:{getElementById(id){assert(nodes.has(id),'Unknown DOM node '+id);return nodes.get(id);},createElement(tag){return new El(tag);},querySelectorAll(selector){const key=selector==='[data-criterion]'?'criterion':selector==='[data-scope-criterion]'?'scopeCriterion':null;const connected=new Set();const walk=e=>{if(!e||typeof e!=='object'||connected.has(e))return;connected.add(e);e.children.forEach(walk);};nodes.forEach(walk);return key?[...connected].filter(x=>x.dataset[key]!==undefined):[];}},window:{addEventListener(name,cb){listeners[name]=cb;},open(){popups++;return {opener:null,location:{}};}},fetch:async(path,opts)=>{
   calls.push({path,body:opts.body?JSON.parse(opts.body):null});
   if(options.deferInitial&&calls.length===1)return new Promise(r=>{releaseInitial=()=>r({ok:true,json:async()=>copy(server)});});
   if(nextResponse){const fn=nextResponse;nextResponse=null;return fn(path,opts);}
@@ -23,7 +23,7 @@ async function setup(options={}){
   return {ok:true,json:async()=>copy(server)};
  }};
  vm.createContext(env);vm.runInContext(source,env,{filename:'static/app.js'});await tick();
- return {nodes,calls,listeners,edit(value){nodes.get('evidence').value=value;nodes.get('evidence').oninput();},setResponse(fn){nextResponse=fn;},getServer:()=>copy(server),popups:()=>popups,releaseInitial:async()=>{releaseInitial();await tick();},editScope(id,value){nodes.get(id).value=value;(nodes.get(id).oninput||nodes.get(id).onchange)();},scopeCriteria:()=>env.document.querySelectorAll('[data-scope-criterion]')};
+ return {nodes,calls,listeners,blobs,downloads,edit(value){nodes.get('evidence').value=value;nodes.get('evidence').oninput();},setResponse(fn){nextResponse=fn;},getServer:()=>copy(server),popups:()=>popups,releaseInitial:async()=>{releaseInitial();await tick();},editScope(id,value){nodes.get(id).value=value;(nodes.get(id).oninput||nodes.get(id).onchange)();},scopeCriteria:()=>env.document.querySelectorAll('[data-scope-criterion]')};
 }
 (async()=>{
  const results=[];
@@ -94,6 +94,15 @@ async function setup(options={}){
   const calls=t.calls.length;await t.nodes.get('createDraft').onclick();assert.equal(t.calls.length,calls);assert.equal(t.nodes.get('createDraft').disabled,true);
   rejected.outcome.reason='private-unexpected-provider-body';t.setResponse(async()=>({ok:true,json:async()=>rejected}));await t.nodes.get('refresh').onclick();assert(!t.nodes.get('draftDescription').textContent.includes('private-unexpected-provider-body'));
   results.push('confirmed_provider_rejection_blocks_creation_and_reconciliation_without_exposing_raw_reason');
+ }
+ {
+  const t=await setup();t.edit('Unsaved handover text');const calls=t.calls.length;assert.equal(t.nodes.get('deliveryReport').disabled,true);await t.nodes.get('deliveryReport').onclick();assert.equal(t.calls.length,calls);assert.equal(t.downloads.length,0);results.push('delivery_report_cannot_export_stale_saved_text_while_editor_is_dirty');
+ }
+ {
+  const t=await setup();const report={filename:'scopeproof-delivery-v1-test.html',html:'<!doctype html><title>Saved delivery</title>',snapshot:initial.snapshot};t.setResponse(async()=>({ok:true,json:async()=>report}));await t.nodes.get('deliveryReport').onclick();assert.equal(t.calls.at(-1).path,'/api/delivery-report');assert.equal(t.downloads[0].filename,report.filename);assert.equal(await t.blobs[0].text(),report.html);assert.match(t.nodes.get('alert').textContent,/saved-version delivery record/);results.push('delivery_download_uses_server_document_and_filename_without_rendering_it_in_the_app');
+ }
+ {
+  const t=await setup();t.setResponse(async()=>({ok:false,json:async()=>({error:'AUTH_REQUIRED_OR_EXPIRED'})}));await t.nodes.get('deliveryReport').onclick();assert.equal(t.downloads.length,0);assert.equal(t.nodes.get('deliveryReport').disabled,false);results.push('failed_delivery_export_does_not_download_a_partial_record');
  }
  console.log(JSON.stringify({passed:true,checks:results,check_count:results.length,transport:'DOM/HTTP adapters; actual app.js; initial state from actual Python Workspace',browser_rendering_tested:false,external_calls:0},null,2));
 })().catch(e=>{console.error(e);process.exitCode=1;});
