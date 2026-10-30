@@ -2,6 +2,12 @@
 
 **Evidence before invoices.** ScopeProof helps a web studio connect agreed scope, delivery evidence, explicit version-specific review and an invoice draft. AI assists the review; a person decides whether to accept the work. The price comes from the agreed scope.
 
+## Current entry and demonstration
+
+**Status reconciled on 30 October 2026:** the existing [Devpost entry](https://devpost.com/software/scopeproof-h4bvsr) was submitted on 23 October and its completed **5/5** submission was last inspected on 26 October. The public [143-second demonstration of 0.3.5](https://www.youtube.com/watch?v=43xjJ_O0N00) is the current judging video. These dated records supersede the earlier draft/pending-publication statements in the historical sections below; they are not a new submission or a prize result.
+
+The video demonstrates the local simulator workflow with disclosed imported external AI analysis. It uses sampled consecutive captures with cuts and reading holds; it is not a continuous native screen recording. It must not be presented as one continuous browser-to-AI-to-PayPal execution. The real PayPal Sandbox core-adapter receipt remains the separate historical run linked below. For the shortest reproducible judging path, use [the current judging guide](submission/CURRENT_JUDGING_GUIDE.md).
+
 ## New in 0.3.5: a usable delivery handover
 
 The existing local application now downloads a self-contained delivery record from the saved workspace: agreed scope and price, criterion findings and quotations, explicit review, evidence and draft status. It opens offline and includes print styles. The record marks expired acceptance and distinguishes an earlier draft from the current evidence. Exporting does not create, send or pay an invoice. The new **Download delivery report** button is blocked while scope or report edits are unsaved.
@@ -164,17 +170,16 @@ Measure actual review time, corrections, misunderstandings, delivery labor and o
 - [x] Local application, explicit review, version binding and recovery workflow.
 - [x] Earlier Python and JavaScript-controller results documented separately, with their runtime versions.
 - [x] Fresh external AI responses imported over real local HTTP; exact boundary documented.
-- [x] Devpost registration and saved draft: https://devpost.com/software/scopeproof-h4bvsr
+- [x] Existing Devpost entry submitted on 23 October; completed 5/5 form last inspected on 26 October: https://devpost.com/software/scopeproof-h4bvsr
 - [x] Replay the saved AI outputs over 16 actual HTTP requests on `0.3.3-edit-safety`; no fresh model inference during replay.
 - [x] Local integrated verification of the final 0.3.4 runtime recorded in `VERIFICATION_0_3_4.txt`.
 - [x] Actual core-adapter-to-PayPal Sandbox draft creation and matching direct read-back in the one-shot runner; synthetic local review only.
 - [ ] Browser-to-server-to-PayPal workflow with fresh AI interaction and explicit UI review.
-- [ ] Ordinary-browser footage of the final workflow, including actual AI interaction.
-- [ ] Public tested MIT source and truthful public video under three minutes.
-- [ ] Final declarations, submission and confirmation receipt.
+- [x] Public MIT source for 0.3.5 and the current 143-second video linked above; simulator, imported analysis and historical Sandbox boundaries remain explicit.
+- [x] Existing submission and confirmation receipt recorded; this does not independently certify every personal eligibility or origin declaration.
 - [ ] Independent user evidence and commercial validation.
 
-The official closing time last checked is 12 November 2026 at 12:00 PST / 21:00 Europe/Madrid. Recheck https://paypalaihackathon.devpost.com/rules before final submission. A saved draft is not a submitted entry.
+The closing time recorded in the latest campaign review is 12 November 2026 at 12:00 PST / 21:00 Europe/Madrid. Recheck https://paypalaihackathon.devpost.com/rules before a future material change. The existing submitted entry must not be duplicated; submission, eligibility and winning are separate states.
 
 ## License and attribution
 
