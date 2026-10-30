@@ -8,6 +8,14 @@
 
 The video demonstrates the local simulator workflow with disclosed imported external AI analysis. It uses sampled consecutive captures with cuts and reading holds; it is not a continuous native screen recording. It must not be presented as one continuous browser-to-AI-to-PayPal execution. The real PayPal Sandbox core-adapter receipt remains the separate historical run linked below. For the shortest reproducible judging path, use [the current judging guide](submission/CURRENT_JUDGING_GUIDE.md).
 
+## Unicode import hardening candidate, 30 October 2026
+
+This 0.3.5 source candidate prevents a malformed imported review from breaking **Download delivery report**. Previously, a JSON review containing an escaped lone Unicode surrogate could be accepted and saved, after which delivery export failed, including after restart. Such input now returns `400 INVALID_JSON` before saving; the previous analysis and other saved state remain intact, and the delivery report stays exportable. Valid emoji, multilingual text, combining accents and exact quotations are preserved.
+
+**Recorded verification for this candidate:** `python run_tests.py` passed **224 Python tests and five HTTP fault scenarios**. The count includes nine Unicode regression methods in [test_unicode_boundary.py](test_unicode_boundary.py); a separate internal review reproduced the original failure and the corrected behavior and reran the complete local suite. These checks use loopback HTTP, temporary local workspaces and simulated or injected providers. They establish this bounded input-validation correction, with no new browser, model or PayPal run and no model-quality or competitive-performance claim.
+
+The application still reports runtime `0.3.5-delivery-record`; this dated source candidate is distinguished by the Unicode validation change and its regression tests. It does not migrate malformed data already saved in an older workspace. The earlier video, submission observations, project-origin declarations and provider receipts retain their original dates and scope.
+
 ## New in 0.3.5: a usable delivery handover
 
 The existing local application now downloads a self-contained delivery record from the saved workspace: agreed scope and price, criterion findings and quotations, explicit review, evidence and draft status. It opens offline and includes print styles. The record marks expired acceptance and distinguishes an earlier draft from the current evidence. Exporting does not create, send or pay an invoice. The new **Download delivery report** button is blocked while scope or report edits are unsaved.

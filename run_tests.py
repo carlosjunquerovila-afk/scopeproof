@@ -3,7 +3,7 @@
 from pathlib import Path
 import subprocess,sys,json
 ROOT=Path(__file__).resolve().parent
-MODULES=['test_scopeproof_guard','test_scopeproof_bridge','test_runner','test_workflow','test_app_http','test_import_review','test_review_recovery','test_evidence_limits','test_delivery_report']
+MODULES=['test_scopeproof_guard','test_scopeproof_bridge','test_runner','test_workflow','test_app_http','test_import_review','test_review_recovery','test_evidence_limits','test_delivery_report','test_unicode_boundary']
 def main():
  p=subprocess.run([sys.executable,'-W','error::ResourceWarning','-m','unittest','-v',*MODULES],cwd=ROOT,timeout=75)
  if p.returncode:return p.returncode

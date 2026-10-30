@@ -87,8 +87,22 @@ def no_duplicate_keys(pairs):
 def parse_json(data: bytes):
     require(len(data) <= MAX_RESPONSE, 'RESPONSE_TOO_LARGE')
     try:
-        return json.loads(data, object_pairs_hook=no_duplicate_keys,
-                          parse_constant=lambda _: (_ for _ in ()).throw(Blocked('NONFINITE_JSON')))
+        value = json.loads(data, object_pairs_hook=no_duplicate_keys,
+                           parse_constant=lambda _: (_ for _ in ()).throw(Blocked('NONFINITE_JSON')))
+        # json.loads accepts escaped lone surrogates. They cannot be encoded in
+        # UTF-8 delivery records and must be refused before a review is saved.
+        # Check keys and nested values without normalizing valid quotations.
+        pending = [value]
+        while pending:
+            item = pending.pop()
+            if type(item) is str:
+                item.encode('utf-8')
+            elif type(item) is dict:
+                pending.extend(item)
+                pending.extend(item.values())
+            elif type(item) is list:
+                pending.extend(item)
+        return value
     except (ValueError, UnicodeError, RecursionError) as exc:
         raise Blocked('INVALID_JSON') from None
 

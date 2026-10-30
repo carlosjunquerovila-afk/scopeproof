@@ -4,6 +4,12 @@ ScopeProof is a local desktop-browser prototype for a web studio's fixed-price m
 
 **Current judging route, reconciled 30 October 2026:** watch the [143-second 0.3.5 demonstration](https://www.youtube.com/watch?v=43xjJ_O0N00), then run the local build below. The existing [Devpost entry](https://devpost.com/software/scopeproof-h4bvsr) was submitted on 23 October and last inspected as complete, 5/5, on 26 October. Do not create a duplicate entry. The current video and submission supersede the earlier pending-video/draft notes; no award or customer validation is claimed.
 
+## Unicode import hardening candidate, 30 October 2026
+
+The current 0.3.5 source candidate rejects imported JSON containing an escaped lone Unicode surrogate before it can overwrite saved analysis and break the delivery report. The reproduced failure changed from import `200` followed by export `500` to import `400 INVALID_JSON` with the previous state preserved and export `200`, including after reopening the workspace. Valid emoji, accents and exact evidence quotations remain supported. Already-malformed data saved by an earlier build is not migrated.
+
+Run `python run_tests.py` from the repository root. The recorded candidate run and a separate internal review each passed **224 Python tests and five HTTP fault scenarios**, including nine Unicode regression methods. These are local simulator and loopback checks; no new browser, model or PayPal execution is attributed to this correction. The runtime string remains `0.3.5-delivery-record`; the dated source and added Unicode tests identify this candidate. Earlier video, submission, origin and Sandbox records keep their original meaning.
+
 ## Delivery workflow candidate, 0.3.5
 
 The source candidate now includes **Download delivery report**, connected to the real local application's authenticated `/api/delivery-report` endpoint. It downloads the saved scope, criterion findings, evidence, human-review state and draft status as a self-contained HTML handover. Reports remain readable offline and have print styles. Unsaved edits block export; acceptance expiration, process restart and drafts tied to older evidence are labelled. The offline checker validates the visible document against its embedded record, not customer identity or independent notarization.
