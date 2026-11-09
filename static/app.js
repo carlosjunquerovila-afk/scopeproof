@@ -3,7 +3,7 @@ const $=id=>document.getElementById(id);
 let token=new URLSearchParams(location.hash.slice(1)).get('token')||sessionStorage.getItem('scopeproof-session');
 if(token){sessionStorage.setItem('scopeproof-session',token);history.replaceState(null,'',location.pathname);}
 let state=null,busy=false;
-const savedActions=['analyze','exportPrompt','importReview','invite','createDraft','refresh','reconcile','connectPayPal','export','deliveryReport','setFault','approve'];
+const savedActions=['analyze','exportPrompt','importReview','invite','createDraft','refresh','refreshDraft','reconcile','connectPayPal','export','deliveryReport','setFault','approve'];
 function scopeEditor(){const criteria={};document.querySelectorAll('[data-scope-criterion]').forEach(e=>criteria[e.dataset.scopeCriterion]=e.value);return {name:$('scopeName').value,cents:String($('scopeCents').value),currency:$('scopeCurrency').value,criteria};}
 function savedScope(s){const m=s.scope.milestones[0];return {name:m.name,cents:String(m.amount_cents),currency:s.scope.currency,criteria:s.criteria};}
 function sameScope(a,b){return a.name===b.name&&a.cents===b.cents&&a.currency===b.currency&&Object.keys(a.criteria).length===Object.keys(b.criteria).length&&Object.keys(a.criteria).every(k=>a.criteria[k]===b.criteria[k]);}
@@ -19,6 +19,7 @@ function updateEditing(){
  $('operationStatus').textContent=state?'Request in progress. You can keep editing; other actions will resume when it finishes.':'Loading the saved workspace. Editing will become available when it is ready.';
  savedActions.forEach(id=>$(id).disabled=!state||busy||evidenceDirty||scopeDirty);
  if(state?.outcome?.status==='CREATE_REJECTED')$('createDraft').disabled=true;
+ $('refreshDraft').disabled=!merchant||busy||evidenceDirty||scopeDirty||!['VERIFIED_DRAFT','READBACK_UNAVAILABLE'].includes(state?.outcome?.status)||(state?.mode==='sandbox'&&!state?.paypal_connected);
  ['saveEvidence','saveScope'].forEach(id=>$(id).disabled=!merchant||busy);
  ['discardEvidence','discardScope','loadComplete'].forEach(id=>$(id).disabled=!merchant);
  ['evidence','scopeName','scopeCents'].forEach(id=>$(id).readOnly=!merchant);
@@ -102,10 +103,11 @@ function show(s,editors={}){
  const rejectedHttp=/^PAYPAL_DRAFT_HTTP_(400|401|403|404|405|406|415|422)$/.exec(outcome?.reason||'')?.[1];
  $('draftTitle').textContent=rejected?(priorVersion?'Previous version draft request rejected':'Draft request rejected'):priorVersion?'Previous version draft · '+status:status==='VERIFIED_DRAFT'?(historical?'Previously verified draft · refresh required':demo?'Simulated draft verified':'Sandbox draft verified'):status||'Not invoiced';
  $('invoiceId').textContent=outcome?.invoice_id||'';
- $('draftDescription').textContent=rejected?'PayPal Sandbox rejected the create request'+(rejectedHttp?' (HTTP '+rejectedHttp+')':'')+'. Review the request and account setup manually. This attempt is closed and cannot be retried or reconciled here.':priorVersion?'This provider record belongs to earlier evidence. It is not acceptance of the current version; review is required.':status==='UNKNOWN'||status==='IN_FLIGHT'?'Outcome unknown. Another creation is blocked; reconcile the existing intent first.':status==='REVIEW_REQUIRED'?'Provider fields differ from the approved scope. Manual investigation required; no automatic retry.':status==='VERIFIED_DRAFT'?(historical?'Recovered from the local record. This process has not re-read the provider; connect and refresh explicitly. Not sent or paid.':'Read-back matched the agreed amount, recipient and line. Draft only — not sent or paid.'):'Approval is required before a draft can be created.';
+ $('draftDescription').textContent=rejected?'PayPal Sandbox rejected the create request'+(rejectedHttp?' (HTTP '+rejectedHttp+')':'')+'. Review the request and account setup manually. This attempt is closed and cannot be retried or reconciled here.':priorVersion?'This provider record belongs to earlier evidence. It is not acceptance of the current version; review is required.':status==='UNKNOWN'||status==='IN_FLIGHT'?'Outcome unknown. Another creation is blocked; reconcile the existing intent first.':status==='REVIEW_REQUIRED'?'Provider fields differ from the approved scope. Manual investigation required; no automatic retry.':status==='VERIFIED_DRAFT'?(historical?'Recovered from the local record. Connect if needed, then use Read existing draft only. Refresh local status does not contact the provider. Not sent or paid.':'Read-back matched the agreed amount, recipient and line. Draft only — not sent or paid.'):'Approval is required before a draft can be created.';
  $('draftConsentText').textContent=demo?'Create a simulated draft. Do not send a payment request.':'Create one PayPal SANDBOX draft. Do not send it or move money.';
  $('createDraft').textContent=rejected?'Draft request rejected':priorVersion?'Review current version before proceeding':status==='VERIFIED_DRAFT'?'Re-read existing draft':'Prepare draft';
  $('reconcileBox').hidden=!merchant||!['UNKNOWN','IN_FLIGHT','CREATED_UNVERIFIED'].includes(status);
+ $('refreshDraft').hidden=!merchant||!['VERIFIED_DRAFT','READBACK_UNAVAILABLE'].includes(status);
  $('invoiceCandidate').hidden=demo;$('faultPanel').hidden=!merchant||!demo;
  $('connectionPanel').hidden=!merchant||demo;
  $('connectionStatus').textContent=s.paypal_connected?'Sandbox authentication succeeded in this process. No invoice created by connecting.':'Not connected. Authentication has not been validated.';
@@ -130,6 +132,11 @@ $('invite').onclick=()=>action(async()=>{requireSavedEditors();const win=window.
 $('approve').onclick=()=>action(async()=>{const decisions={};document.querySelectorAll('[data-criterion]').forEach(e=>decisions[e.dataset.criterion]=e.checked);show(await api('/api/approve',{snapshot:state.snapshot,decisions,acknowledgement:$('ack').checked}));notice('Accepted this version only. You have not created or sent an invoice.',true);});
 $('createDraft').onclick=()=>action(async()=>{if(state.outcome?.status==='CREATE_REJECTED')throw new Error('The provider rejected this draft request. This attempt cannot be retried; review its request and account setup manually.');show(await api('/api/draft',{snapshot:state.snapshot,confirm:$('draftConsent').checked}));});
 $('refresh').onclick=()=>action(async()=>show(await api('/api/state')));
+$('refreshDraft').onclick=()=>action(async()=>{
+ show(await api('/api/refresh-draft',{confirm:true}));
+ const status=state.outcome?.status;
+ notice(status==='VERIFIED_DRAFT'?'Existing draft read against its original saved version. No new draft created; current acceptance is unchanged.':status==='READBACK_UNAVAILABLE'?'The provider could not be read. The cached record is not a fresh verification; no new draft was created.':'The provider record differs from the original saved draft. Manual investigation is required; no new draft was created.',status==='VERIFIED_DRAFT');
+});
 $('reconcile').onclick=()=>action(async()=>show(await api('/api/reconcile',{invoice_id:$('invoiceCandidate').value||null})));
 $('setFault').onclick=()=>action(async()=>{await api('/api/fault',{fault:$('fault').value});notice('Simulator condition selected: '+$('fault').value,true);});
 $('connectPayPal').onclick=()=>action(async()=>{
