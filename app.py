@@ -106,6 +106,8 @@ class Handler(BaseHTTPRequestHandler):
                 exact_fields(data,'snapshot','confirm');out=self.ws.draft(t,data['snapshot'],data['confirm'])
             elif self.path=='/api/reconcile':
                 exact_fields(data,'invoice_id');out=self.ws.reconcile(t,data['invoice_id'])
+            elif self.path=='/api/refresh-draft':
+                exact_fields(data,'confirm');out=self.ws.refresh_draft(t,data['confirm'])
             elif self.path=='/api/fault':
                 exact_fields(data,'fault');out=self.ws.fault(t,data['fault'])
             elif self.path=='/api/connect-paypal':
