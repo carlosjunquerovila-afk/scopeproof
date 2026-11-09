@@ -2,6 +2,23 @@
 
 **Evidence before invoices.** ScopeProof helps a web studio connect agreed scope, delivery evidence, explicit version-specific review and an invoice draft. AI assists the review; a person decides whether to accept the work. The price comes from the agreed scope.
 
+
+## Read-only recovery and judging candidate, 9 November 2026
+
+This candidate reports `0.3.5-readback-candidate`; the existing 143-second video shows the earlier `0.3.5-delivery-record`. Devpost was inspected on 9 November as **Submitted, 5/5 steps complete**, with that video. No external submission edit was made by this audit.
+
+**Read existing draft only** now checks the original saved invoice ID and payload without requiring renewed acceptance of current evidence. Previously, the draft action required current acceptance, while reconciliation rejected already-verified drafts. An unavailable read stays unverified; mismatches require manual investigation. No new invoice is created, no current version is approved and no approval expiration is extended. **Refresh local status** only reads local state.
+
+Run the local checks with Python 3.11+ and an installed Node.js:
+
+```sh
+python tools/verify_judging.py --output ../scopeproof-judge-check-01
+```
+
+Use a new output directory outside this source tree. The receipt records source hashes, **236 Python tests, five HTTP fault scenarios, 27 JavaScript controller checks** and two separate 16-request local HTTP flows. The Node harness uses the same Python executable when started by this command. A missing check fails the overall result. Application use still requires only Python.
+
+These checks use simulated providers and saved model responses or lexical retrieval. This candidate's visual browser behavior, Windows execution and live PayPal/model integration have not been demonstrated. The [current judging guide](submission/CURRENT_JUDGING_GUIDE.md) separates current checks from historical provider evidence. This source is a candidate for owner review, not a claim of submission changes or competitive superiority.
+
 ## Current entry and demonstration
 
 **Status reconciled on 30 October 2026:** the existing [Devpost entry](https://devpost.com/software/scopeproof-h4bvsr) was submitted on 23 October and its completed **5/5** submission was last inspected on 26 October. The public [143-second demonstration of 0.3.5](https://www.youtube.com/watch?v=43xjJ_O0N00) is the current judging video. These dated records supersede the earlier draft/pending-publication statements in the historical sections below; they are not a new submission or a prize result.

@@ -1,3 +1,5 @@
+> Historical record, retained for provenance. This file is not the current submission status or judging route. Use [CURRENT_JUDGING_GUIDE.md](CURRENT_JUDGING_GUIDE.md), reconciled on 9 November 2026. The existing entry is submitted; do not create another.
+
 ## Inspiration
 A studio can deliver the work and still struggle to answer a basic question: which version did the client accept? Evidence, acceptance and invoice preparation often live in different places. ScopeProof brings that handoff into one narrow, inspectable workflow.
 

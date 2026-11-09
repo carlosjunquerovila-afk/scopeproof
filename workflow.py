@@ -10,7 +10,7 @@ import scopeproof_bridge as b
 from evidence_review import lexical_review, OllamaAnalyzer
 from delivery_report import create_export
 
-VERSION='0.3.5-delivery-record'
+VERSION='0.3.5-readback-candidate'
 FULL_REPORT='Responsive layout verified at 375, 768 and 1440 pixels.\nContact form submission tested successfully in the staging environment.\nAccessibility review has no critical issues in the supplied report.'
 INCOMPLETE_REPORT='Responsive layout verified at 375 pixels only.\nContact form submission has NOT been tested.\nAccessibility review is still pending.'
 CRITERIA={'responsive':'Responsive layout verified at 375, 768 and 1440 pixels.',
@@ -282,6 +282,19 @@ class Workspace:
                           s['approval']['envelope'],self.signer,self.ledger,self.paypal)
             self.provider_record_fresh_for_session=(out['status']=='VERIFIED_DRAFT')
             s['outcome']=out;s['outcome_snapshot']=original;self.event(s,'DRAFT_ATTEMPT_'+out['status']);self.save(s)
+            return self.state(token)
+    def refresh_draft(self,token,confirm):
+        with self.lock:
+            self.require_owner(token)
+            b.require(confirm is True,'EXPLICIT_READBACK_REQUIRED')
+            s=self.read()
+            b.require(s['outcome'] is not None,'NO_DRAFT_TO_REFRESH')
+            b.require(self.paypal is not None,'PAYPAL_SANDBOX_NOT_CONNECTED')
+            self.provider_record_fresh_for_session=False
+            out=b.refresh_verified_draft(self.ledger,self.paypal,s['outcome']['billing_key'])
+            self.provider_record_fresh_for_session=(out['status']=='VERIFIED_DRAFT')
+            s['outcome']=out
+            self.event(s,'EXISTING_DRAFT_READ_'+out['status']);self.save(s)
             return self.state(token)
     def reconcile(self,token,invoice_id=None):
         with self.lock:

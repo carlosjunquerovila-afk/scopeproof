@@ -439,6 +439,27 @@ def execute(scope, milestone_id, artifacts, approval, envelope, signer: LocalSig
     return public_result(row)
 
 
+def refresh_verified_draft(ledger: Ledger, paypal: SandboxPayPal, key: str) -> dict:
+    """Read an existing verified draft against its original persisted payload.
+
+    Never calls create_draft, accepts a replacement ID, renews approval, or uses
+    the current edited scope. An unavailable read keeps the intent reserved.
+    """
+    row = ledger.get(key)
+    require(row['provenance'] == paypal.provenance, 'CANNOT_MIX_MOCK_AND_SANDBOX_LEDGER')
+    require(row['state'] == 'VERIFIED_DRAFT', 'VERIFIED_DRAFT_REQUIRED')
+    require(row['invoice_id'] is not None, 'VERIFIED_INVOICE_ID_REQUIRED')
+    try:
+        remote = paypal.get_invoice(row['invoice_id'])
+    except Exception:
+        return {**public_result(row), 'status': 'READBACK_UNAVAILABLE', 'cache_only': True}
+    try:
+        verify_invoice(remote, parse_json(row['payload'].encode()), row['invoice_id'])
+    except Exception:
+        row = ledger.transition(key, 'REVIEW_REQUIRED', reason='READBACK_CHANGED')
+    return public_result(row)
+
+
 def reconcile(ledger: Ledger, paypal: SandboxPayPal, key: str, invoice_id: str | None = None) -> dict:
     """Read-only reconciliation with a known candidate ID; never recreates a draft.
 

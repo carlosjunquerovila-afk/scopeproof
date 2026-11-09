@@ -1,38 +1,59 @@
 # ScopeProof — judge quick start and evidence boundaries
 
-ScopeProof is a local desktop-browser prototype for a web studio's fixed-price milestone: agreed criteria, textual delivery evidence, AI-assisted findings, an explicit version-specific review, and an invoice draft. It is MIT licensed and uses Python 3.11+ standard library, SQLite and HTML/CSS/JavaScript. The [public source repository](https://github.com/carlosjunquerovila-afk/scopeproof) contains the application and full README.
+**Audit candidate, 9 November 2026.** The [existing Devpost entry](https://devpost.com/software/scopeproof-h4bvsr) was inspected on 9 November as **Submitted, 5/5 steps complete**, with the [143-second video](https://www.youtube.com/watch?v=43xjJ_O0N00). No entry was duplicated or edited by this audit. This candidate is not the code shown in that video.
 
-**Current judging route, reconciled 30 October 2026:** watch the [143-second 0.3.5 demonstration](https://www.youtube.com/watch?v=43xjJ_O0N00), then run the local build below. The existing [Devpost entry](https://devpost.com/software/scopeproof-h4bvsr) was submitted on 23 October and last inspected as complete, 5/5, on 26 October. Do not create a duplicate entry. The current video and submission supersede the earlier pending-video/draft notes; no award or customer validation is claimed.
+ScopeProof is a local desktop-browser prototype for small web studios: fixed scope, textual evidence, AI-assisted findings, version-specific review and an unsent draft. It does not independently test a delivered website.
 
-## Unicode import hardening candidate, 30 October 2026
+## Start the working application
 
-The current 0.3.5 source candidate rejects imported JSON containing an escaped lone Unicode surrogate before it can overwrite saved analysis and break the delivery report. The reproduced failure changed from import `200` followed by export `500` to import `400 INVALID_JSON` with the previous state preserved and export `200`, including after reopening the workspace. Valid emoji, accents and exact evidence quotations remain supported. Already-malformed data saved by an earlier build is not migrated.
+Use Python 3.11+ on the **same computer as the browser**. In the source directory:
 
-Run `python run_tests.py` from the repository root. The recorded candidate run and a separate internal review each passed **224 Python tests and five HTTP fault scenarios**, including nine Unicode regression methods. These are local simulator and loopback checks; no new browser, model or PayPal execution is attributed to this correction. The runtime string remains `0.3.5-delivery-record`; the dated source and added Unicode tests identify this candidate. Earlier video, submission, origin and Sandbox records keep their original meaning.
+```sh
+python app.py --workspace ../scopeproof-judge-demo
+```
 
-## Delivery workflow candidate, 0.3.5
+Windows Python launcher: `py -3 app.py --workspace ../scopeproof-judge-demo`.
+Use the private URL printed by the application if the browser does not open. Do not record its token. The banner is **LOCAL SIMULATOR · NOT PAYPAL**. No credentials, dependencies or model download are needed in default mode.
 
-The source candidate now includes **Download delivery report**, connected to the real local application's authenticated `/api/delivery-report` endpoint. It downloads the saved scope, criterion findings, evidence, human-review state and draft status as a self-contained HTML handover. Reports remain readable offline and have print styles. Unsaved edits block export; acceptance expiration, process restart and drafts tied to older evidence are labelled. The offline checker validates the visible document against its embedded record, not customer identity or independent notarization.
+1. Load the complete synthetic sample and save it.
+2. For AI import, choose **Import review from your AI tool**, export the prompt for this snapshot, obtain a fresh response from your own tool and validate its JSON. Importing is not in-app inference or authenticated authorship.
+3. Open the separate review session; inspect and accept each criterion and the saved version. Review links do not prove customer identity.
+4. Return to the merchant tab, **Refresh local status**, then explicitly confirm the simulated draft.
+5. Download and open the delivery report. Save an evidence change: acceptance must be revoked and the old draft must remain attached to its original version.
+6. In this candidate, **Read existing draft only** refreshes that original draft without new acceptance or creation. Failed reads are not fresh verification; mismatches require investigation.
 
-The [0.3.5 change guide](../DELIVERY_WORKFLOW_0_3_5.md) includes reproduction instructions. A new synthetic project was exercised through 16 actual loopback HTTP requests: no premature draft, explicit local review, one simulated draft and downloadable reports before and after evidence changed. This separate run has no browser rendering, new model inference, customer participation or PayPal request. The earlier core Sandbox receipt below still belongs to its recorded 0.3.4 execution; it must not be presented as a result of this new UI feature.
+## One-command local verification
 
-## Run the working build
+An installed Node.js is needed for JavaScript checks, but not for application use:
 
-On the **same computer as the browser**, open a terminal in the extracted repository root and run `python app.py` (Windows PowerShell: `py -3.11 app.py`). The app binds to `127.0.0.1:8765`, opens a private local session and needs no dependency installation or credentials in its default mode. Leave the terminal running; use the complete private URL printed there if a browser did not open. Do not share that session URL. The banner says **LOCAL SIMULATOR · NOT PAYPAL**. The README gives the review walkthrough. A remote container's `localhost` is not your computer's browser. For Windows, an alternative is the portable launcher from the public [v0.3.4 release](https://github.com/carlosjunquerovila-afk/scopeproof/releases/tag/v0.3.4): run `py -3 ScopeProof_ejecutar_0_3_4.py` with Python 3.11 or newer. Default mode does not contact PayPal. Stop with Ctrl+C.
+```sh
+python tools/verify_judging.py --output ../scopeproof-judge-check-01
+```
 
-The AI interface exports a prompt tied to the current snapshot; a response obtained from an external AI tool is imported and checked for schema, criterion IDs, exact quotations and version. The app cannot authenticate the pasted response's author or independently establish that reported work occurred. A model finding never approves the milestone; the separate local reviewer action does. Its capability link does not prove a customer's identity.
+Use a new output directory outside the source tree. The command records source hashes, logs, actual counts, two separate 16-request HTTP flows and readable delivery files. Missing Node or a failed check yields `FAILED_OR_INCOMPLETE`.
 
-## What the evidence establishes
+The 9 November candidate passed **236 Python tests, five HTTP fault scenarios, 27 JavaScript controller checks**, syntax validation and both HTTP flows. The controller uses DOM/HTTP adapters, not browser rendering. One flow replays frozen external responses; the other uses local lexical retrieval. Neither is fresh inference or PayPal execution. Attribute results to the source hashes in the receipt.
 
-| Evidence | Observed result | Boundary |
+## Evidence map
+
+| Evidence | Establishes | Boundary |
 | --- | --- | --- |
-| Fresh AI import, 19 Oct 2026, 0.3.4 | Two newly generated ChatGPT analyses from two app-exported prompts imported through 16 real loopback HTTP requests; synthetic incomplete report left two criteria missing, corrected report supported all three. | Same-assistant synthetic evaluation, model ID not asserted, no in-app model API, no browser footage, local simulator invoice/reviewer, no PayPal call. The sanitized trace is preserved locally pending public packaging. |
-| Desktop-browser UI, 19 Oct 2026, pinned 0.3.4 source | [Browser UI observation record](https://github.com/carlosjunquerovila-afk/scopeproof/blob/main/demo_evidence/browser_ui_observations_20261019.json) identifies the captured Chrome frames by SHA-256 and includes two fresh, snapshot-bound external AI prompts and responses. The incomplete v1 response marked all three criteria missing; after saving corrected v2, the old import was rejected as stale and the new one showed three quoted passages. A separate local reviewer accepted v2, the simulator read back `INV2-MOCK-0001`, and saving v3 required a fresh review while retaining the earlier mock draft as history. | Screens are actual local UI states and DOM observations, not a raw HTTP/network trace. No v1 result-card screenshot, authenticated customer, factual verification of the synthetic delivery report, in-app model API, or PayPal request in this browser run. Unsaved editing leaves saved v2 in force until v3 is saved. |
-| PayPal Sandbox, 19 Oct 2026 | [One-shot runner](https://github.com/carlosjunquerovila-afk/scopeproof/actions/runs/39273764876) and [redacted receipt](https://github.com/carlosjunquerovila-afk/scopeproof/blob/main/demo_evidence/sandbox_transport_20261019.json): OAuth, an unsent synthetic EUR 125 draft and direct matching GET (`VERIFIED_DRAFT`). | Exact 0.3.4 core adapter on GitHub Actions with synthetic local review; no ordinary-browser UI, new AI inference, customer approval, send or payment in this run. Do not redispatch. |
-| Internal 0.3.4 checks | 202 Python tests, five injected HTTP fault scenarios, 21 JS-controller checks and a 16-request saved-output replay passed in the recorded verification. | Controlled providers and DOM/HTTP adapters; the replay is not fresh inference. No independent certification. |
+| Current local build and tests | Review/version guards, HTTP routes, simulated draft, export and read-only recovery | Simulated provider; no customer or browser rendering test in this audit |
+| Current video | Actual earlier 0.3.5 browser states, imported AI, review and simulator workflow | Sampled captures and edits; no continuous integrated live run |
+| [19 October Sandbox run #1](https://github.com/carlosjunquerovila-afk/scopeproof/actions/runs/39273764876) and [receipt](../demo_evidence/sandbox_transport_20261019.json) | OAuth, one unsent EUR 125 draft and matching GET from source `5af9f89a780ea265f76fef26d9b9614b93d46f4f` | Earlier 0.3.4 core adapter; no browser, fresh model or this candidate |
+| External ChatGPT import | Schema, criterion IDs, exact quotations and snapshot checked | No evidence-truth or model-authorship guarantee |
+| Optional Ollama / OpenAI code | Separately configurable adapters | No successful model run in this audit |
 
-The fresh AI HTTP run, desktop-browser simulator run, and PayPal Sandbox core run are **three separate executions**, not one continuous browser-to-PayPal transaction. The default UI simulator allows direct testing without private credentials; optional Sandbox mode requires a judge's own free PayPal Developer Sandbox app and generated test accounts per the main README. Credentials and private identifiers are not distributed.
+These are separate executions. The historical Sandbox runner is one-shot; do not redispatch it.
 
-The [Devpost narrative](https://devpost.com/software/scopeproof-h4bvsr) describes these boundaries. The current public video is the **143-second 0.3.5 demonstration** linked at the top. It uses sampled consecutive captures with cuts and reading holds, not continuous native screen recording. It shows the simulator workflow and disclosed imported external ChatGPT analysis; it does not establish a fresh integrated browser-to-AI-to-PayPal run. The earlier 166-second still-capture edit was rejected by the 19 October review and remains historical material, not the judging video.
+## Optional real Sandbox path
 
-The submitted form last inspected on 26 October was complete, 5/5, and used the current video. That observation does not independently establish every eligibility or project-origin declaration. No customer study, paid pilot, real payment, comparative user benefit or prize is claimed. Existing safeguards and successful simulator checks are technical evidence, not evidence that ScopeProof outperforms commercial products.
+Follow [the README's private Sandbox setup](../README.md#connect-paypal-sandbox-privately). Use your own free Developer Sandbox app and generated seller/buyer test accounts. Start `python app.py --sandbox --workspace ../scopeproof-judge-sandbox`; connect privately, save evidence, obtain/import fresh analysis, review explicitly, confirm one draft and inspect read-back. Keep credentials out of the repository and recording. No send or payment is implemented.
+
+The audit environment had no configured Sandbox credentials or installed local model. This candidate has **not** completed browser-to-model-to-PayPal execution. Without Sandbox setup, judges can fully exercise only the simulator path. Windows and the new button's visual browser behavior remain unverified.
+
+## Freeze and history
+
+The [deadline](https://paypalaihackathon.devpost.com/rules) is **12 November 2026, 21:00 Europe/Madrid**. The organizer's 5 November reminder asks entrants to keep access active until 21 December and leave linked repository/video/materials unchanged after closing. Freeze reviewed source before the deadline. External changes require owner approval.
+
+Earlier `README_JUDGES.md`, `DEVPOST_STORY.md`, release notes and manifests are historical. This guide is the current entry point. No customer savings, production certification, independent competitive superiority or award is claimed.

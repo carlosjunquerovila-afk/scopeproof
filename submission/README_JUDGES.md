@@ -1,3 +1,5 @@
+> Historical record, retained for provenance. This file is not the current submission status or judging route. Use [CURRENT_JUDGING_GUIDE.md](CURRENT_JUDGING_GUIDE.md), reconciled on 9 November 2026. The existing entry is submitted; do not create another.
+
 # ScopeProof 0.3.4 — release candidate
 
 **Evidence before invoices.** ScopeProof helps a web studio connect agreed scope, delivery evidence, explicit version-specific review and an invoice draft. AI assists the review; a person decides whether to accept the work. The price comes from the agreed scope.
