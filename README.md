@@ -5,7 +5,7 @@
 
 ## Read-only recovery and judging candidate, 9 November 2026
 
-This candidate reports `0.3.5-readback-candidate`; the existing 143-second video shows the earlier `0.3.5-delivery-record`. Devpost was inspected on 9 November as **Submitted, 5/5 steps complete**, with that video. No external submission edit was made by this audit.
+This build reports `0.3.5-readback-candidate`; the existing 143-second video shows the earlier `0.3.5-delivery-record`. Devpost was inspected on 9 November as **Submitted, 5/5 steps complete**, with that video. That initial inspection preceded the evidence update documented below.
 
 **Read existing draft only** now checks the original saved invoice ID and payload without requiring renewed acceptance of current evidence. Previously, the draft action required current acceptance, while reconciliation rejected already-verified drafts. An unavailable read stays unverified; mismatches require manual investigation. No new invoice is created, no current version is approved and no approval expiration is extended. **Refresh local status** only reads local state.
 
@@ -17,13 +17,13 @@ python tools/verify_judging.py --output ../scopeproof-judge-check-01
 
 Use a new output directory outside this source tree. The receipt records source hashes, **236 Python tests, five HTTP fault scenarios, 27 JavaScript controller checks** and two separate 16-request local HTTP flows. The Node harness uses the same Python executable when started by this command. A missing check fails the overall result. Application use still requires only Python.
 
-These checks use simulated providers and saved model responses or lexical retrieval. This candidate's visual browser behavior, Windows execution and live PayPal/model integration have not been demonstrated. The [current judging guide](submission/CURRENT_JUDGING_GUIDE.md) separates current checks from historical provider evidence. This source is a candidate for owner review, not a claim of submission changes or competitive superiority.
+These automated checks use simulated providers and saved model responses or lexical retrieval. A separate [9 November observed browser run](submission/SANDBOX_BROWSER_RUN_20261109.md), on the user's Windows computer, imported fresh external ChatGPT reviews, authenticated with PayPal Sandbox, created one unsent EUR 125 draft and verified its read-back. Editing then revoked acceptance; the new read-only action successfully reread the same draft. The assistant operated both test roles. This demonstrates the manual import path, not an embedded model call, independent customer acceptance or a new video. The [current judging guide](submission/CURRENT_JUDGING_GUIDE.md) separates these evidence types; no competitive superiority is claimed.
 
 ## Current entry and demonstration
 
 **Status reconciled on 30 October 2026:** the existing [Devpost entry](https://devpost.com/software/scopeproof-h4bvsr) was submitted on 23 October and its completed **5/5** submission was last inspected on 26 October. The public [143-second demonstration of 0.3.5](https://www.youtube.com/watch?v=43xjJ_O0N00) is the current judging video. These dated records supersede the earlier draft/pending-publication statements in the historical sections below; they are not a new submission or a prize result.
 
-The video demonstrates the local simulator workflow with disclosed imported external AI analysis. It uses sampled consecutive captures with cuts and reading holds; it is not a continuous native screen recording. It must not be presented as one continuous browser-to-AI-to-PayPal execution. The real PayPal Sandbox core-adapter receipt remains the separate historical run linked below. For the shortest reproducible judging path, use [the current judging guide](submission/CURRENT_JUDGING_GUIDE.md).
+The video demonstrates the local simulator workflow with disclosed imported external AI analysis. It uses sampled consecutive captures with cuts and reading holds; it is not a continuous native screen recording. It must not be presented as one continuous browser-to-AI-to-PayPal execution. The 19 October PayPal Sandbox core-adapter receipt remains historical. The [new 9 November browser workflow](submission/SANDBOX_BROWSER_RUN_20261109.md) is additional evidence and is not shown in the current video. For the shortest reproducible judging path, use [the current judging guide](submission/CURRENT_JUDGING_GUIDE.md).
 
 ## Unicode import hardening candidate, 30 October 2026
 
@@ -199,7 +199,7 @@ Measure actual review time, corrections, misunderstandings, delivery labor and o
 - [x] Replay the saved AI outputs over 16 actual HTTP requests on `0.3.3-edit-safety`; no fresh model inference during replay.
 - [x] Local integrated verification of the final 0.3.4 runtime recorded in `VERIFICATION_0_3_4.txt`.
 - [x] Actual core-adapter-to-PayPal Sandbox draft creation and matching direct read-back in the one-shot runner; synthetic local review only.
-- [ ] Browser-to-server-to-PayPal workflow with fresh AI interaction and explicit UI review.
+- [x] [9 November browser-to-server-to-PayPal Sandbox workflow](submission/SANDBOX_BROWSER_RUN_20261109.md) with fresh external AI JSON imports and explicit UI acceptance by a test role operated by the assistant. This is not an in-app model call or independent human/customer validation.
 - [x] Public MIT source for 0.3.5 and the current 143-second video linked above; simulator, imported analysis and historical Sandbox boundaries remain explicit.
 - [x] Existing submission and confirmation receipt recorded; this does not independently certify every personal eligibility or origin declaration.
 - [ ] Independent user evidence and commercial validation.

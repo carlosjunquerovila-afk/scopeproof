@@ -1,6 +1,6 @@
 # ScopeProof — judge quick start and evidence boundaries
 
-**Audit candidate, 9 November 2026.** The [existing Devpost entry](https://devpost.com/software/scopeproof-h4bvsr) was inspected on 9 November as **Submitted, 5/5 steps complete**, with the [143-second video](https://www.youtube.com/watch?v=43xjJ_O0N00). No entry was duplicated or edited by this audit. This candidate is not the code shown in that video.
+**Maintenance build and observed run, 9 November 2026.** The [existing Devpost entry](https://devpost.com/software/scopeproof-h4bvsr) was inspected on 9 November as **Submitted, 5/5 steps complete**, with the [143-second video](https://www.youtube.com/watch?v=43xjJ_O0N00). No duplicate entry was created. This build is not the code shown in that video.
 
 ScopeProof is a local desktop-browser prototype for small web studios: fixed scope, textual evidence, AI-assisted findings, version-specific review and an unsent draft. It does not independently test a delivered website.
 
@@ -38,19 +38,20 @@ The 9 November candidate passed **236 Python tests, five HTTP fault scenarios, 2
 
 | Evidence | Establishes | Boundary |
 | --- | --- | --- |
-| Current local build and tests | Review/version guards, HTTP routes, simulated draft, export and read-only recovery | Simulated provider; no customer or browser rendering test in this audit |
+| Automated local tests | Review/version guards, HTTP routes, simulated draft, export and read-only recovery | Simulated provider and DOM adapters; these tests are not the browser run below |
+| [9 November observed browser run](SANDBOX_BROWSER_RUN_20261109.md) | Fresh external AI imports, real Sandbox OAuth, one unsent EUR 125 draft, matching read-back, revoked acceptance and read-only recovery after an edit | Manual AI import; assistant operated both test roles; no independent customer, provider-log export or new continuous video |
 | Current video | Actual earlier 0.3.5 browser states, imported AI, review and simulator workflow | Sampled captures and edits; no continuous integrated live run |
 | [19 October Sandbox run #1](https://github.com/carlosjunquerovila-afk/scopeproof/actions/runs/39273764876) and [receipt](../demo_evidence/sandbox_transport_20261019.json) | OAuth, one unsent EUR 125 draft and matching GET from source `5af9f89a780ea265f76fef26d9b9614b93d46f4f` | Earlier 0.3.4 core adapter; no browser, fresh model or this candidate |
 | External ChatGPT import | Schema, criterion IDs, exact quotations and snapshot checked | No evidence-truth or model-authorship guarantee |
 | Optional Ollama / OpenAI code | Separately configurable adapters | No successful model run in this audit |
 
-These are separate executions. The historical Sandbox runner is one-shot; do not redispatch it.
+The automated tests, current video and 19 October runner are separate from the newly observed 9 November browser workflow. The historical Sandbox runner is one-shot; do not redispatch it.
 
 ## Optional real Sandbox path
 
 Follow [the README's private Sandbox setup](../README.md#connect-paypal-sandbox-privately). Use your own free Developer Sandbox app and generated seller/buyer test accounts. Start `python app.py --sandbox --workspace ../scopeproof-judge-sandbox`; connect privately, save evidence, obtain/import fresh analysis, review explicitly, confirm one draft and inspect read-back. Keep credentials out of the repository and recording. No send or payment is implemented.
 
-The audit environment had no configured Sandbox credentials or installed local model. This candidate has **not** completed browser-to-model-to-PayPal execution. Without Sandbox setup, judges can fully exercise only the simulator path. Windows and the new button's visual browser behavior remain unverified.
+The [9 November observation](SANDBOX_BROWSER_RUN_20261109.md) exercised this browser path on the user's Windows computer, including the new read-only button against a real Sandbox draft after an edit. Three fresh responses were generated in an external ChatGPT conversation and imported; **no in-app LLM call or independent customer acceptance was demonstrated**. The provider result was observed through the application and audited adapter, without an independent PayPal dashboard-log export. Without Sandbox credentials, judges can fully exercise only the simulator path.
 
 ## Freeze and history
 
