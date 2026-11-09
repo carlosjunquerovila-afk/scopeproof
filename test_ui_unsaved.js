@@ -5,7 +5,8 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
 const {spawnSync}=require('node:child_process');
 const source=fs.readFileSync(__dirname+'/static/app.js','utf8');
 const html=fs.readFileSync(__dirname+'/static/index.html','utf8');
-const init=spawnSync('python3',['-c',"import json,tempfile; from workflow import Workspace; t=tempfile.TemporaryDirectory(); w=Workspace(t.name); print(json.dumps(w.state(w.owner_token)))"],{cwd:__dirname,encoding:'utf8'});
+const python=process.env.SCOPEPROOF_PYTHON||(process.platform==='win32'?'python':'python3');
+const init=spawnSync(python,['-c',"import json,tempfile; from workflow import Workspace; t=tempfile.TemporaryDirectory(); w=Workspace(t.name); print(json.dumps(w.state(w.owner_token)))"],{cwd:__dirname,encoding:'utf8'});
 assert.equal(init.status,0,init.stderr);const initial=JSON.parse(init.stdout);
 const copy=x=>JSON.parse(JSON.stringify(x));
 const tick=()=>new Promise(r=>setImmediate(r));
@@ -103,6 +104,26 @@ async function setup(options={}){
  }
  {
   const t=await setup();t.setResponse(async()=>({ok:false,json:async()=>({error:'AUTH_REQUIRED_OR_EXPIRED'})}));await t.nodes.get('deliveryReport').onclick();assert.equal(t.downloads.length,0);assert.equal(t.nodes.get('deliveryReport').disabled,false);results.push('failed_delivery_export_does_not_download_a_partial_record');
+ }
+ {
+  const t=await setup(),previous=t.getServer();previous.outcome={status:'VERIFIED_DRAFT',invoice_id:'INV2-MOCK-0001'};previous.outcome_snapshot='previous-version';previous.approved_current=false;previous.provider_record_fresh_for_session=false;
+  t.setResponse(async()=>({ok:true,json:async()=>previous}));await t.nodes.get('refresh').onclick();
+  assert.equal(t.calls.at(-1).path,'/api/state');assert.equal(t.nodes.get('refreshDraft').hidden,false);assert.equal(t.nodes.get('refreshDraft').disabled,false);
+  const refreshed=copy(previous);refreshed.provider_record_fresh_for_session=true;
+  t.setResponse(async()=>({ok:true,json:async()=>refreshed}));await t.nodes.get('refreshDraft').onclick();
+  assert.equal(t.calls.at(-1).path,'/api/refresh-draft');assert.equal(t.calls.at(-1).body.confirm,true);assert(!t.calls.some(c=>c.path==='/api/draft'));
+  assert.match(t.nodes.get('draftTitle').textContent,/Previous version/);assert.equal(t.nodes.get('approvalStatus').textContent,'Current version has no valid acceptance');
+  results.push('historical_draft_has_separate_read_only_action_without_current_acceptance');
+  t.edit('Still unsaved');const calls=t.calls.length;assert.equal(t.nodes.get('refreshDraft').disabled,true);await t.nodes.get('refreshDraft').onclick();assert.equal(t.calls.length,calls);
+  results.push('read_only_provider_refresh_preserves_unsaved_edit_guard');
+ }
+ {
+  const t=await setup(),previous=t.getServer();previous.mode='sandbox';previous.paypal_connected=false;previous.outcome={status:'VERIFIED_DRAFT'};previous.outcome_snapshot=previous.snapshot;
+  t.setResponse(async()=>({ok:true,json:async()=>previous}));await t.nodes.get('refresh').onclick();assert.equal(t.nodes.get('refreshDraft').disabled,true);
+  previous.paypal_connected=true;previous.outcome.status='READBACK_UNAVAILABLE';
+  t.setResponse(async()=>({ok:true,json:async()=>previous}));await t.nodes.get('refresh').onclick();assert.equal(t.nodes.get('refreshDraft').disabled,false);
+  t.setResponse(async()=>({ok:true,json:async()=>previous}));await t.nodes.get('refreshDraft').onclick();assert.match(t.nodes.get('alert').textContent,/not a fresh verification/);
+  results.push('readback_requires_connection_and_failed_read_never_reports_success');
  }
  console.log(JSON.stringify({passed:true,checks:results,check_count:results.length,transport:'DOM/HTTP adapters; actual app.js; initial state from actual Python Workspace',browser_rendering_tested:false,external_calls:0},null,2));
 })().catch(e=>{console.error(e);process.exitCode=1;});
